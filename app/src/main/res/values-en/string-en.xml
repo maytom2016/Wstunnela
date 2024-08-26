@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wstunnela</string>
+    <string name="wstunnel_vesion">Version:</string>
+    <string name="system_architecture">System_Arch:</string>
+    <string name="loaded">Is Active:</string>
+    <string name="buttonstart">start</string>
+    <string name="buttonstop">stop</string>
+    <string name="nosupportremind">Your device isn\'t supported</string>
+    <string name="exam_cmd">wstunnel  client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
+    <string name="errormessage">Nothing happend</string>
+    <string name="Notificationtitle">Wstunnela</string>
+    <string name="Notificationcontent">Wstunnel is Running</string>
+    <string name="illlegalwstunnelcmd">An error was detected in the startup command</string>
+
+    <string name="servicename">com.feng.wstunnela.MyService</string>
+    <string name="wsarm64">wstunnel_arm64</string>
+    <string name="wsamd64">wstunnel_amd64</string>
+    <string name="binfilepath">/data/data/com.feng.wstunnela/wstunnel</string>
+
+    <string name="arch_text">arm64/amd64</string>
+    <string name="version_text">x.x.x</string>
+</resources>

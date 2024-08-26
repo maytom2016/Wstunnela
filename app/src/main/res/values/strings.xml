@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">wstunnela</string>
+    <string name="wstunnel_vesion">WS版本:</string>
+    <string name="system_architecture">系统架构:</string>
+    <string name="loaded">启用状态:</string>
+    <string name="buttonstart">启用</string>
+    <string name="buttonstop">停用</string>
+    <string name="nosupportremind">您的设备不受支持</string>
+    <string name="exam_cmd">wstunnel  client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
+    <string name="errormessage">服务未运行</string>
+    <string name="Notificationtitle">wstunnela</string>
+    <string name="Notificationcontent">wstunnel正在后台运行</string>
+    <string name="illlegalwstunnelcmd">检测到启动命令有错误</string>
+
+    <string name="servicename">com.feng.wstunnela.MyService</string>
+    <string name="wsarm64">wstunnel_arm64</string>
+    <string name="wsamd64">wstunnel_amd64</string>
+    <string name="binfilepath">/data/data/com.feng.wstunnela/wstunnel</string>
+
+    <string name="arch_text">arm64/amd64</string>
+    <string name="version_text">x.x.x</string>
+</resources>
