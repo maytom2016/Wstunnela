@@ -96,6 +96,4 @@ jobs:
         with:
           tag_name: ${{ steps.get_version.outputs.VERSION }}
           files: |
-           ${{ env.main_project_module }}/build/outputs/apk/release.tar.gz
            ${{ env.main_project_module }}/build/outputs/apk/release/app-release-signed.apk
-           ${{ env.main_project_module }}/build/outputs/apk/app-release-signed.apk
