@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Set Current Date As Env Variable
       - name: Set current date as env variable
@@ -89,11 +89,11 @@ jobs:
              # echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     
       - name: Release
-        uses: softprops/action-gh-release@v1
-#      if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.get_version.outputs.VERSION }}
           files: |
-           ${{ env.main_project_module }}/build/outputs/apk/app-release-signed.apk
+           ${{ env.main_project_module }}/build/outputs/apk/release.tar.gz
