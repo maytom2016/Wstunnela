@@ -5,6 +5,14 @@
 ![GitHub Stars](https://img.shields.io/github/stars/maytom2016/Wstunnela.svg?style=flat-square&label=Stars&logo=github)
 ![GitHub Forks](https://img.shields.io/github/forks/maytom2016/Wstunnela.svg?style=flat-square&label=Forks&logo=github)
 
-## readme
+## introduce
 A gui for Wstunnel on Andorid(amd64&&arm64).
 
+## Inspiration
+https://github.com/erebe/wstunnel
+
+## Binary files Distribution Instructions
+
+Copyright (c) 2016-2024, Erèbe - Romain Gerard
+
+All rights reserved.
