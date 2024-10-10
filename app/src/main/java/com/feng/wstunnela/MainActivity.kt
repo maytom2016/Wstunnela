@@ -6,14 +6,14 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Binder
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.text.Html
-import androidx.core.app.NotificationCompat
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.lifecycleScope
 import com.feng.wstunnela.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
@@ -29,13 +29,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var scope: Job
     lateinit var Crontask:Job
     lateinit var binpath:String
-
+    private var serviceBound = false
     private val connection=object : ServiceConnection {
         override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
             myBinder=p1 as MyService.mBinder
             service = myBinder.service
             service!!.wstunnel(binpath, binding)
-
+            serviceBound=true
             //定时检查后台ws进程是否存在，如果不存在就杀死服务
             Crontask=lifecycleScope.launch {
                 repeat(Int.MAX_VALUE){
@@ -63,6 +63,8 @@ class MainActivity : AppCompatActivity() {
         }
         override fun onServiceDisconnected(p0: ComponentName?) {
             //服务异常结束才出发，正常时无用
+            service =null
+            serviceBound=false
             Log.d("info","disconnect")
         }
     }
@@ -103,17 +105,11 @@ class MainActivity : AppCompatActivity() {
     }
     fun setdisableservice()
     {
-
-        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val runningServices = manager.getRunningServices(Integer.MAX_VALUE)
-        for (service in runningServices) {
-            if (getString(R.string.servicename) == service.service.className) {
-                if ( this::myBinder.isInitialized) {
-                    unbindService(connection)//解绑Service
-                }
-                break
-            }
+        if(serviceBound&&this::myBinder.isInitialized)
+        {
+                unbindService(connection)//解绑Service
         }
+
         binding.editText.isEnabled=true
         binding.button.text=this.getString(R.string.buttonstart)
         binding.textView31.text=this.getString(R.string.buttonstop)
@@ -304,7 +300,11 @@ class MyService : Service() {
             var text=""
              for(value in textrecycle) {
                  text+=value
-                 binding.textView4.setText(Html.fromHtml(text))
+                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                     binding.textView4.setText(Html.fromHtml(text,Html.FROM_HTML_MODE_LEGACY))
+                 } else {
+                     binding.textView4.setText(Html.fromHtml(text))
+                 }
             }
         }
 
@@ -323,16 +323,22 @@ class MyService : Service() {
     suspend fun exeshell(shell: List<String>,channel:Channel<String>)
     {
         val pb: ProcessBuilder = ProcessBuilder(shell).redirectErrorStream(true)
-        process = pb.start()
+        process = withContext(Dispatchers.IO) {
+            pb.start()
+        }
         isr = InputStreamReader(process.inputStream, Charset.forName("iso-8859-1"))
         bfr = BufferedReader(isr)
         var line: String?
 
-        while (null != bfr.readLine().also { line = it }) {
+        while (null != withContext(Dispatchers.IO) {
+                bfr.readLine()
+            }.also { line = it }) {
             Log.e("info", line!!)
             channel.send(makeoutputstr(line))
         }
-        process.waitFor()
+        withContext(Dispatchers.IO) {
+            process.waitFor()
+        }
         channel.close()
         exit()
     }
