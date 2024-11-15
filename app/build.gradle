@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+//    id 'com.google.devtools.ksp'
 }
 
 android {
@@ -53,7 +54,17 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
 
-
+//    def rxhttp_version = '3.3.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+//    implementation "com.github.liujingxing.rxhttp:rxhttp:$rxhttp_version"
+//    ksp "com.github.liujingxing.rxhttp:rxhttp-compiler:$rxhttp_version"
+    // Retrofit库依赖
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    // Gson转换器依赖，用于将JSON数据转换为Java对象
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // 解压tar.gz文件
+    implementation 'org.apache.commons:commons-compress:1.22'
+    implementation 'commons-io:commons-io:2.17.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

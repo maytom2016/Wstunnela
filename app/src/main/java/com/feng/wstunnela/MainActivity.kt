@@ -11,6 +11,7 @@ import android.os.IBinder
 import android.text.Html
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -20,7 +21,11 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
 import java.io.*
 import java.nio.charset.Charset
-
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.firstOrNull
+import java.lang.Thread.sleep
+import kotlin.collections.forEach
+import kotlin.collections.map
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -62,7 +67,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("info","connect")
         }
         override fun onServiceDisconnected(p0: ComponentName?) {
-            //服务异常结束才出发，正常时无用
+            //服务异常结束才触发，正常时无用
             service =null
             serviceBound=false
             Log.d("info","disconnect")
@@ -71,9 +76,28 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binpath=this.getString(R.string.binfilepath)
+
+        var tarfilestr="$filesDir/test.tar.gz"
+        if(!File(binpath).exists() && !File(tarfilestr).exists()) {
+            val dialog = DialogUtil.showDownloadProgress(this@MainActivity, "正在下载...")
+            val view = dialog.findViewById<ProgressBar>(R.id.d_progress_bar)
+            CoroutineScope(Dispatchers.IO).launch {
+                copybinfromgithub(dialog,view,tarfilestr)
+            }
+        }
+        else if(!File(binpath).exists() && File(tarfilestr).exists())
+        {
+            //解压wstunnel文件到执行目录
+            val lastIndex = binpath.lastIndexOf('/')
+            val binpath2 = binpath.substring(0,lastIndex + 1)
+            if(File(tarfilestr).exists()){
+                DownloadManager.extractTarGz(tarfilestr,binpath2)
+            }
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binpath=this.getString(R.string.binfilepath)
+
         getwstunnelversion()
         getsystemarch()
         readcmd()
@@ -167,8 +191,66 @@ class MainActivity : AppCompatActivity() {
         }
             val file = File(strOutFileName)
             return file.exists()
+    }
+    suspend fun copybinfromgithub( dialog:AlertDialog,view:ProgressBar,tarfilestr:String)
+    {
+        //程序路径
+        var downloadpath= "$filesDir"
+        var downloadurl=""
+        var filename=""
+        //使用api获取最新版本下载地址
+        var arch = System.getProperty("os.arch")?.lowercase()
+        if (arch==null)arch="error"
+        if (arch.contains("x86_64") or arch.contains("amd64")){
+            arch="linux_amd64"
+        }
+        else if(arch.contains("armv8") or arch.contains("arm64") or arch.contains("aarch64")){
+            arch="android_arm64"
+        }
+        val alltar=DownloadManager.getGithubRelease().firstOrNull()?.assets
+        if (alltar != null) {
+            val urls=alltar.map{it.browser_download_url}
+            urls.forEach { url->
+                if(url.contains(arch))
+                {
+                    downloadurl=url
+                    val lastIndex = url.lastIndexOf('/')
+                    filename = url.substring(lastIndex + 1)
+                }
+            }
+        }
+//        println("~~~"+filename)
+        filename="test.tar.gz"
+//        println("~~~path"+downloadpath)
+//        println("~~~downloadurl"+downloadurl)
+        //下载tar.gz包
 
-
+        DownloadManager.download(downloadurl,
+            File(downloadpath, filename)
+        ).collect {
+        //collect有可能报错，解决方法为头部增加import kotlinx.coroutines.flow.collect
+            when (it) {
+                is DownloadState.InProgress -> {
+                    Log.d("~~~", "download in progress: ${it.progress}.")
+                        view.progress = it.progress
+                }
+                is DownloadState.Success -> {
+                    Log.d("~~~", "download finished.")
+                    dialog.dismiss()
+                }
+                is DownloadState.Error -> {
+                    Log.d("~~~", "download error: ${it.throwable}.")
+                    dialog.dismiss()
+                }
+            }
+        }
+        //解压文件
+        val lastIndex = binpath.lastIndexOf('/')
+        val binpath2 = binpath.substring(0,lastIndex + 1)
+//        println("~~~$binpath2")
+        if(File(tarfilestr).exists()){
+            DownloadManager.extractTarGz(tarfilestr,binpath2)
+        }
     }
     @Throws(IOException::class)
     private fun execCmd(cmd:Array<String>):String {
@@ -259,6 +341,7 @@ class MyService : Service() {
     override fun onCreate() {
         super.onCreate()
         Log.d("data","onCreate")
+
         val manager=getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
             val channel= NotificationChannel("my_service","前台Service通知",NotificationManager.IMPORTANCE_DEFAULT)
@@ -276,7 +359,6 @@ class MyService : Service() {
             .setContentIntent(pi)
             .build()
         startForeground(1,notification)
-
     }
 
     override fun onDestroy() {
