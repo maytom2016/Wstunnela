@@ -209,11 +209,18 @@ class MainActivity : AppCompatActivity() {
     {
         val cmd= "$binpath --version"
         val exeFile = File(binpath)
-        if (!exeFile.exists()) {
-            if(!FileManage.copybin(this,binpath)) return
-        }
+        //检测文件并不可靠，有时下载最新的wstunnel中断时也会有残存文件，但是无法正常运行
+//        if (!exeFile.exists()) {
+//            if(!FileManage.copybin(this,binpath)) return
+//        }
         exeFile.setExecutable(true, true)
         vm.wsver_textView1 = FileManage.execCmd(cmd.split("\\s+".toRegex()).toTypedArray())
+        if(vm.wsver_textView1.isEmpty())
+        {
+            FileManage.copybin(this,binpath)
+        }
+        vm.wsver_textView1 = FileManage.execCmd(cmd.split("\\s+".toRegex()).toTypedArray())
+        Log.d("wsver",vm.wsver_textView1)
     }
     fun startService() {
         serviceController = ServiceController(this)
