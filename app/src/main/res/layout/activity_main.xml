@@ -1,183 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.4"
-            android:gravity="center_vertical|end"
-            android:textColor="@color/black"
-            android:text="@string/wstunnel_vesion"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            />
-
-        <TextView
-            android:id="@+id/textView_1"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical"
-            android:text="@string/version_text"
-            android:textColor="@color/forestgreen"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_weight="0.6" />
-    </LinearLayout>
-    <View
-        android:id="@+id/view8"
-        android:layout_width="match_parent"
-        android:layout_height="5dp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-    <TextView
-        android:id="@+id/textView2"
+    <!-- Fragment 容器 -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical|end"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="@string/system_architecture"
-        android:layout_weight="0.4"/>
-        <TextView
-            android:id="@+id/textView2_1"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical"
-            android:text="@string/arch_text"
-            android:textColor="@color/forestgreen"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_weight="0.6" />
-    </LinearLayout>
-    <View
-        android:id="@+id/view9"
-        android:layout_width="match_parent"
-        android:layout_height="5dp" />
-    <LinearLayout
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
+
+    <!-- 底部导航栏 -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical|end"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="@string/loaded"
-            android:layout_weight="0.4"/>
-
-        <TextView
-            android:id="@+id/textView3_1"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="0.6"
-            android:gravity="center_vertical"
-            android:text="@string/buttonstop"
-            android:textColor="@color/red"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottom_nav_menu"
+        android:background="@android:color/white"
+        />
+    <!-- 悬浮按钮 -->
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineV0.5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineH0.4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.4" />
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineH0.8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.8" />
+        android:layout_height="match_parent" />
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/edit_bg"
-            android:ems="10"
-            android:hint="@string/exam_cmd"
-            android:importantForAutofill="no"
-            android:inputType="textMultiLine"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
-            android:textColorHint="@color/gray"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:nextFocusDown="@+id/editText"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/guidelineH0.4"
-            />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/textview_bg"
-            android:fontFamily="sans-serif-condensed"
-            android:gravity="center_vertical"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
-            android:scrollbars="vertical"
-            android:text="@string/errormessage"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/editText"
-            app:layout_constraintTop_toBottomOf="@+id/editText"
-            app:layout_constraintBottom_toTopOf="@+id/guidelineH0.8"
-            />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/buttonstart"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/guidelineH0.8"
-            app:layout_constraintStart_toStartOf="@+id/guidelineV0.5"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineV0.5"
-            />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

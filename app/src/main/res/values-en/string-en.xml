@@ -20,4 +20,20 @@
 
     <string name="arch_text">arm64/amd64</string>
     <string name="version_text">x.x.x</string>
+    <string name="download_remind">downloading wstunnel from github…</string>
+
+    <string name="edit_hint_text">WStunnel Rule Name</string>
+    <string name="wstunnel_client_temp">wstunnel client -L udp://51820:localhost:51820?timeout_sec=0 wss://exam.com:18080</string>>
+    <string name="wstunnel_client_temp_s">client temp</string>>
+    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>>
+    <string name="wstunnel_server_temp_s">server temp</string>>
+
+    <string name="tab_main">main</string>>
+    <string name="tab_config">config</string>>
+    <string name="tab_log">log</string>>
+
+    <string name="fab_play">launch</string>>
+    <string name="fab_stop">stop</string>>
+
+
 </resources>

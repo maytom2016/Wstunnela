@@ -1,89 +1,190 @@
 package com.feng.wstunnela
-import android.app.*
-import android.content.ComponentName
+
+
+import ServiceController
 import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
-import android.os.Binder
-import android.os.Build
 import android.os.Bundle
-import android.os.IBinder
-import android.text.Html
-import android.text.method.ScrollingMovementMethod
+import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Block
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.core.text.toSpanned
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.feng.wstunnela.TomlConfigManager.loadRules
+import com.feng.wstunnela.TomlConfigManager.saveRules
 import com.feng.wstunnela.databinding.ActivityMainBinding
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.*
-import java.io.*
-import java.nio.charset.Charset
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.firstOrNull
-import java.lang.Thread.sleep
-import kotlin.collections.forEach
-import kotlin.collections.map
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.io.File
+import kotlin.math.roundToInt
+
+lateinit var main: MainActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var service: MyService? = null
-    lateinit var myBinder:MyService.mBinder
-    lateinit var scope: Job
-    lateinit var Crontask:Job
+    private lateinit var navController: NavController
+    private lateinit var crontask: Job
+    private lateinit var serviceController: ServiceController
     lateinit var binpath:String
-    private var serviceBound = false
-    private val connection=object : ServiceConnection {
-        override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
-            myBinder=p1 as MyService.mBinder
-            service = myBinder.service
-            service!!.wstunnel(binpath, binding)
-            serviceBound=true
-            //定时检查后台ws进程是否存在，如果不存在就杀死服务
-            Crontask=lifecycleScope.launch {
-                repeat(Int.MAX_VALUE){
-                    delay(5000L)
-                    if (!service!!.checkprocess()) {
-                        setdisableservice()
-                        Crontask.cancel()
-                    }
-                }
-            }
-            //启动wstunnel后立即检查进程情况，若不存在则注销服务。
-            scope=lifecycleScope.launch {
-                delay(500)
-                if (service!!.checkprocess()) {
-                    setenableservice()
-                    savecmd()
-                }
-                else
-                {
-                    setdisableservice()
-                    Crontask.cancel()
-                }
-            }
-            Log.d("info","connect")
-        }
-        override fun onServiceDisconnected(p0: ComponentName?) {
-            //服务异常结束才触发，正常时无用
-            service =null
-            serviceBound=false
-            Log.d("info","disconnect")
-        }
-    }
+//    var bottomNavPx: Int=0
+    val vm: vm by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binpath=this.getString(R.string.binfilepath)
+        main=this
+//        savecmd()
+//        vm.selectedRuleId.value="7ba65000-d7ab-45d0-bd2a-fbd52e7577b9"
+        vm.filesDir=filesDir.toString()
+        //同步servicebound和fab的ui
+        vm.serviceBound.observe(this) { serviceBound ->
+            vm.fabstate.value=serviceBound
+        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        // 按钮状态（默认禁用）
+//        var isEnabled :mutableStateOf(false) }
+//        isEnabled=vm.serviceBound.value==true
+        val composeView = findViewById<ComposeView>(R.id.compose_view)
+        composeView.setContent {
+            // 这里编写Compose函数内容
+            val onFabClick: (Boolean) -> Unit = { isEnabled ->
+                // 这里可以编写fab点击事件
+                val checkcmd= vm.rule.value?.content?.contains("wstunnel") == true
+                //未启动且命令有包含wstunnel时
+//                vm.fabstate.value=!(vm.fabstate.value)
+                if(!isEnabled && checkcmd){
+                    vm.cmdstr=vm.binpath+vm.rule.value?.content.toString().replace("wstunnel","").replace("\"","").replace("\'","")
+                    startService()
+                    savecmd()
+                }
+                else if(!isEnabled && !checkcmd)
+                {
+                    Toast.makeText(this, R.string.illlegalwstunnelcmd, Toast.LENGTH_SHORT).show()
+                    Log.d("fab_1",vm.fabstate.value.toString())
+                }
+                else{
+                    stopService()
+                }
+            }
 
+            Fab(onFabClick,vm)
+        }
+
+
+        // 获取 NavController
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+//        val appBarConfiguration = AppBarConfiguration(
+//            setOf(
+//                R.id.navigation_main, R.id.navigation_config, R.id.navigation_log
+//            )
+//        )
+        navController = navHostFragment.navController
+//        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
+
+        // 设置底部导航与 NavController 的绑定
+        binding.bottomNav.setupWithNavController(navController)
+
+//        NavigationUI.setupWithNavController(bottomNavigationView,navController )
+//        navController.setGraph(R.navigation.nav_graph)
+//        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        //1、加载环境变量
+        vm.binpath=this.getString(R.string.binfilepath)
+        binpath=vm.binpath
+        vm.filesDir="$filesDir"
+        FileManage.vm= vm
+
+        //2、检查wstunnel可执行文件状态
+        check_wsexec_file()
+        //3、获取配置、版本信息
+        getwstunnelversion()
+        getsystemarch()
+        //4、读取配置
+//        readcmd()
+
+
+//        //获取bottomnav高度，以便限制fab活动区域
+//        val view = findViewById<View>(R.id.bottom_nav)
+//        view.post {
+//            bottomNavPx=  view.height
+//        }
+
+    }
+
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+
+//       binding.bottomNav.height
+        return super.onCreateView(name, context, attrs)
+    }
+    override fun onCreateView(
+        parent: View?,
+        name: String,
+        context: Context,
+        attrs: AttributeSet
+    ): View? {
+        return super.onCreateView(parent, name, context, attrs)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        crontask.cancel()
+    }
+
+    fun check_wsexec_file()
+    {
         var tarfilestr="$filesDir/test.tar.gz"
         if(!File(binpath).exists() && !File(tarfilestr).exists()) {
-            val dialog = DialogUtil.showDownloadProgress(this@MainActivity, "正在下载...")
+            val dialog = DialogUtil.showDownloadProgress(this,this.getString(R.string.download_remind))
             val view = dialog.findViewById<ProgressBar>(R.id.d_progress_bar)
             CoroutineScope(Dispatchers.IO).launch {
-                copybinfromgithub(dialog,view,tarfilestr)
+                FileManage.copybinfromgithub(dialog,view,tarfilestr)
             }
         }
         else if(!File(binpath).exists() && File(tarfilestr).exists())
@@ -95,55 +196,13 @@ class MainActivity : AppCompatActivity() {
                 DownloadManager.extractTarGz(tarfilestr,binpath2)
             }
         }
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        getwstunnelversion()
-        getsystemarch()
-        readcmd()
-        binding.textView4.movementMethod = ScrollingMovementMethod.getInstance()
-        binding.button.setOnClickListener{
-            if(binding.button.text==getString(R.string.buttonstart)&& chekcklegalwstunnelcmd()) {
-                val  intent=Intent(this,MyService::class.java)
-                bindService(intent,connection,Context.BIND_AUTO_CREATE)
-            }
-            else if(binding.button.text==getString(R.string.buttonstop)){
-                setdisableservice()
-                if(this::Crontask.isInitialized && Crontask.isActive) {
-                    Crontask.cancel()
-                }
-            }
-            else
-            {
-                Toast.makeText(this, R.string.illlegalwstunnelcmd, Toast.LENGTH_SHORT).show()
-            }
-        }
-
-    }
-    fun setenableservice()
-    {
-        binding.button.text=this.getString(R.string.buttonstop)
-        binding.textView31.text=this.getString(R.string.buttonstart)
-        binding.textView31.setTextColor(this.getColor(R.color.forestgreen))
-        binding.editText.isEnabled=false
-    }
-    fun setdisableservice()
-    {
-        if(serviceBound&&this::myBinder.isInitialized)
-        {
-                unbindService(connection)//解绑Service
-        }
-
-        binding.editText.isEnabled=true
-        binding.button.text=this.getString(R.string.buttonstart)
-        binding.textView31.text=this.getString(R.string.buttonstop)
-        binding.textView31.setTextColor(this.getColor(R.color.red))
-        binding.textView4.text=getString(R.string.errormessage)
     }
     fun getsystemarch()
     {
         val arch = System.getProperty("os.arch")
-        binding.textView21.text=arch
+        if (arch != null) {
+            vm.arch_textView21=arch
+        }
 
     }
     fun getwstunnelversion()
@@ -151,306 +210,194 @@ class MainActivity : AppCompatActivity() {
         val cmd= "$binpath --version"
         val exeFile = File(binpath)
         if (!exeFile.exists()) {
-            if(!copybin(binpath)) return
+            if(!FileManage.copybin(this,binpath)) return
         }
         exeFile.setExecutable(true, true)
-        binding.textView1.text = execCmd(cmd.split("\\s+".toRegex()).toTypedArray())
+        vm.wsver_textView1 = FileManage.execCmd(cmd.split("\\s+".toRegex()).toTypedArray())
     }
-    @Throws(IOException::class)
-    private fun copybin(strOutFileName: String):Boolean {
+    fun startService() {
+        serviceController = ServiceController(this)
+        serviceController.bindService(vm.cmdstr)
+        startProcessMonitoring()
+    }
 
-        val dirstr=(".+/".toRegex()).find(binpath)
-        val dir=File(dirstr?.value)
-
-        if(dir.exists()) {
-            val fis: InputStream?
-            val fos = FileOutputStream(strOutFileName)
-            //目前仅考虑64位架构，因为绝大多数安卓设备都已经是64位系统
-            var arch = System.getProperty("os.arch")?.lowercase()
-            if (arch==null)arch="error"
-            if (arch.contains("x86_64") or arch.contains("amd64")) {
-                fis = this.getAssets().open(getString(R.string.wsamd64))
-            } else if (arch.contains("armv8") or arch.contains("arm64") or arch.contains("aarch64")) {
-                fis = this.getAssets().open(getString(R.string.wsarm64))
-            } else {
-                binding.textView1.text = this.getString(R.string.nosupportremind)
-                binding.textView1.setTextColor(this.getColor(R.color.red))
-                binding.button.isEnabled = false
-                fos.close()
-                return false
-            }
-
-            val b = ByteArray(fis.available())
-            val length = fis.read(b)
-            if (length > 0) {
-                fos.write(b, 0, length)
-            }
-            fos.flush()
-            fis.close()
-            fos.close()
+    fun stopService() {
+        if(this::crontask.isInitialized && crontask.isActive) {
+            crontask.cancel()
         }
-            val file = File(strOutFileName)
-            return file.exists()
+        if(this::serviceController.isInitialized) {
+            serviceController.unbindService()
+        }
+        vm.runlog_textvie4.value=this.getString(R.string.errormessage).toSpanned()
+//        vm.serviceBound.value=false
+        vm.updateServiceBound(false)
     }
-    suspend fun copybinfromgithub( dialog:AlertDialog,view:ProgressBar,tarfilestr:String)
+    private fun startProcessMonitoring() {
+        crontask = lifecycleScope.launch {
+            repeat(Int.MAX_VALUE) {
+                delay(5000L)
+                if (!serviceController.checkProcessAlive()) {
+                    stopService()
+                    return@launch // 退出协程
+                }
+            }
+        }
+    }
+    fun readcmd():List<Rule>
     {
-        //程序路径
-        var downloadpath= "$filesDir"
-        var downloadurl=""
-        var filename=""
-        //使用api获取最新版本下载地址
-        var arch = System.getProperty("os.arch")?.lowercase()
-        if (arch==null)arch="error"
-        if (arch.contains("x86_64") or arch.contains("amd64")){
-            arch="linux_amd64"
+        var loadedRules = loadRules(this, "rule.toml")
+        //如果为空则成生模板
+        if (loadedRules.rules.isEmpty())
+        {
+            loadedRules.rules = listOf(
+                Rule(getString(R.string.wstunnel_client_temp_s), getString(R.string.wstunnel_client_temp),"7ba65000-d7ab-45d0-bd2a-fbd52e7577b9"),
+                Rule(getString(R.string.wstunnel_server_temp_s), getString(R.string.wstunnel_server_temp),"211350d3-eedd-4f1f-8183-35e026c91ab9"),
+            )
         }
-        else if(arch.contains("armv8") or arch.contains("arm64") or arch.contains("aarch64")){
-            arch="android_arm64"
-        }
-        val alltar=DownloadManager.getGithubRelease().firstOrNull()?.assets
-        if (alltar != null) {
-            val urls=alltar.map{it.browser_download_url}
-            urls.forEach { url->
-                if(url.contains(arch))
-                {
-                    downloadurl=url
-                    val lastIndex = url.lastIndexOf('/')
-                    filename = url.substring(lastIndex + 1)
-                }
+        vm.selectedRuleId.value=loadedRules.selectedRuleId
+        if (loadedRules.selectedRuleId?.isNotEmpty() == true) {
+            val targetRule = loadedRules.rules.find { it.id == loadedRules.selectedRuleId }
+            targetRule?.let { rule ->
+                vm.updateRule(rule) // 确保传递要更新的规则对象
             }
         }
-//        println("~~~"+filename)
-        filename="test.tar.gz"
-//        println("~~~path"+downloadpath)
-//        println("~~~downloadurl"+downloadurl)
-        //下载tar.gz包
-
-        DownloadManager.download(downloadurl,
-            File(downloadpath, filename)
-        ).collect {
-        //collect有可能报错，解决方法为头部增加import kotlinx.coroutines.flow.collect
-            when (it) {
-                is DownloadState.InProgress -> {
-                    Log.d("~~~", "download in progress: ${it.progress}.")
-                        view.progress = it.progress
-                }
-                is DownloadState.Success -> {
-                    Log.d("~~~", "download finished.")
-                    dialog.dismiss()
-                }
-                is DownloadState.Error -> {
-                    Log.d("~~~", "download error: ${it.throwable}.")
-                    dialog.dismiss()
-                }
-            }
-        }
-        //解压文件
-        val lastIndex = binpath.lastIndexOf('/')
-        val binpath2 = binpath.substring(0,lastIndex + 1)
-//        println("~~~$binpath2")
-        if(File(tarfilestr).exists()){
-            DownloadManager.extractTarGz(tarfilestr,binpath2)
-        }
-    }
-    @Throws(IOException::class)
-    private fun execCmd(cmd:Array<String>):String {
-        try {
-            val process = Runtime.getRuntime().exec(cmd)
-            val isr = InputStreamReader(process.inputStream)
-            val input = BufferedReader(isr)
-            var line: String?
-            var stdstr=""
-
-            while (null != input.readLine().also { line = it }) {
-                Log.e("##info", line!!)
-                stdstr+=line
-            }
-            process.destroy()
-            isr.close()
-            input.close()
-            return stdstr
-        }
-        catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return ""
-    }
-    fun chekcklegalwstunnelcmd():Boolean
-    {
-        if(binding.editText.text.toString().contains("wstunnel"))return true
-        return false
+        return loadedRules.rules
+//        loadedRules.forEach {
+//            Log.d("Config", it.name)
+//        }
     }
     fun savecmd()
     {
-        savecfg("cmd",binding.editText.text.toString())
-    }
-    fun readcmd()
-    {
-        val read=readlasttimecfg("cmd")
-        if (read!="error") {
-            binding.editText.setText(read)
-        }
-    }
-    fun savecfg(FILENAME:String, filestr: String)
-    {
-        try {
-            val fos = this.openFileOutput(FILENAME, MODE_PRIVATE)
-            fos.write(filestr.toByteArray())
-            fos.close()
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
-    fun readlasttimecfg(FILENAME:String):String
-    {
-        val filestr:String?
-        try {
-            val fis = this.openFileInput(FILENAME)
-            val b = ByteArray(fis.available())
-            fis.read(b)
-            filestr = String(b)
-            fis.close()
-            return filestr
+//      FileManage.savecfg(this, "cmd", vm.cmdstr)
+        crontask = lifecycleScope.launch {
+            delay(5000L)
+            if (serviceController.checkProcessAlive()) {
+                //若5秒后进程还在，则认为是有效配置，准备保存.
+                val rule=vm.rule.value as Rule
+                vm.addOrUpdateRule(rule)
+                saveRules(this@MainActivity, "rule.toml", vm.rules.value)
 
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return "error"
-    }
-}
-
-
-class MyService : Service() {
-    private val myBinder=mBinder()
-    private lateinit var process:Process
-    private lateinit var isr: InputStreamReader
-    private lateinit var bfr: BufferedReader
-    inner class mBinder: Binder(){
-        val service: MyService get() = this@MyService
-    }
-    override fun onBind(intent: Intent): IBinder {
-        Log.d("data","onBind")
-        return myBinder
-    }
-
-
-    override fun onCreate() {
-        super.onCreate()
-        Log.d("data","onCreate")
-
-        val manager=getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
-            val channel= NotificationChannel("my_service","前台Service通知",NotificationManager.IMPORTANCE_DEFAULT)
-            manager.createNotificationChannel(channel)
-        }
-        //设置通知栏通知打开软件，默认是打开应用详情
-        val intent=Intent(this,MainActivity::class.java)
-        val pi= PendingIntent.getActivity(this,0,intent, PendingIntent.FLAG_IMMUTABLE)
-        //设置通知配置
-        val notification= NotificationCompat.Builder(this,"my_service")
-            .setContentTitle(this.getString(R.string.Notificationtitle))
-            .setContentText(this.getString(R.string.Notificationcontent))
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setDefaults(Notification.DEFAULT_SOUND)
-            .setContentIntent(pi)
-            .build()
-        startForeground(1,notification)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            exit()
-        }
-
-        Log.d("data","onDestroy")
-    }
-    fun wstunnel(binpath:String,binding: ActivityMainBinding){
-        //val cmdstr=binpath+"  client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709"
-        val cmdstr=binpath+binding.editText.text.toString().replace("wstunnel","").replace("\"","").replace("\'","")
-        val strs =cmdstr.split("\\s+".toRegex()).toList()
-        val textrecycle = Channel<String>()
-        CoroutineScope(Dispatchers.IO).async {
-            exeshell(strs, textrecycle)
-        }
-        CoroutineScope(Dispatchers.Main).async {
-            var text=""
-             for(value in textrecycle) {
-                 text+=value
-                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                     binding.textView4.setText(Html.fromHtml(text,Html.FROM_HTML_MODE_LEGACY))
-                 } else {
-                     binding.textView4.setText(Html.fromHtml(text))
-                 }
             }
         }
-
     }
-
-    fun exit()
+    fun savecmd_whendelete()
     {
-        if(this::process.isInitialized) {
-            process.destroy()
-        }
-            isr.close()
-            bfr.close()
-
-
+        saveRules(this@MainActivity, "rule.toml", vm.rules.value)
     }
-    suspend fun exeshell(shell: List<String>,channel:Channel<String>)
+    fun navigate_config()
     {
-        val pb: ProcessBuilder = ProcessBuilder(shell).redirectErrorStream(true)
-        process = withContext(Dispatchers.IO) {
-            pb.start()
-        }
-        isr = InputStreamReader(process.inputStream, Charset.forName("iso-8859-1"))
-        bfr = BufferedReader(isr)
-        var line: String?
+        binding.bottomNav.selectedItemId=R.id.navigation_config
+    }
 
-        while (null != withContext(Dispatchers.IO) {
-                bfr.readLine()
-            }.also { line = it }) {
-            Log.e("info", line!!)
-            channel.send(makeoutputstr(line))
-        }
-        withContext(Dispatchers.IO) {
-            process.waitFor()
-        }
-        channel.close()
-        exit()
+
+}
+@Composable
+fun Fab(onFabClick:(Boolean) -> Unit,vm:vm) {
+//    val uiState by vm._serviceBound.collectAsState()
+//    var isEnabled by remember {
+//        vm.fabstate
+//    }
+    val isEnabled= vm.fabstate.value
+    //重组性能统计
+    var count by remember { mutableStateOf(0) }
+    SideEffect {
+        count++
+        Log.d("fab_a",count.toString())
     }
-    fun checkprocess():Boolean{
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O&&this::process.isInitialized) {
-            process.isAlive
-        }else return false
-    }
-    fun makeoutputstr(logstr :String?):String
-    {
-        val map = mapOf("31m" to "red" , "32m" to "green","33m" to "#f5b041","2m" to "blue","0m" to "black")
-        //部分实现映射集合ANSI Escape Sequences
-        val allansicolor=logstr?.let { Regex("\u001B\\[\\d+m\\s*(\u001B\\[\\d+m)*").findAll(logstr) }
-        //ANSI Escape Sequences分割符
-        val ret= logstr?.split("\u001B\\[\\d+m\\s*(\u001B\\[\\d+m)*".toRegex())?.toTypedArray()
-        //log日志内容
-        var finalstr=""
-        allansicolor?.forEachIndexed {index,it ->
-//            Log.d("esc",it.value)
-            val content= ret?.get(index+1)
-            for ((key,value)in map)
-            {
-                if (it.value.contains(key))
-                {
-                    val color=value
-                    finalstr="$finalstr<font color=\'$color\'>$content</font> "
-                    break
+
+
+//    var isEnabled by remember {mutableStateOf(false)}
+//    val isEnabled= vm.serviceBound.value==true
+//    val isEnabled by vm.serviceBound.collectAsState()
+        // 动画参数
+    Log.d("fab",isEnabled.toString())
+    val buttonColor by animateColorAsState(
+        targetValue = if (isEnabled) MaterialTheme.colors.primary else Color.Gray,
+        animationSpec = tween(durationMillis = 300)
+    )
+    val iconTint by animateColorAsState(
+        targetValue = if (isEnabled) Color.White else Color.LightGray,
+        animationSpec = tween(durationMillis = 300)
+    )
+
+    val configuration = LocalConfiguration.current
+    val density = LocalDensity.current
+
+    // 尺寸转换
+    val buttonSize = 60.dp
+    val screenWidthPx = with(density) { configuration.screenWidthDp.dp.toPx() }
+    val screenHeightPx = with(density) { configuration.screenHeightDp.dp.toPx() }
+    val buttonSizePx = with(density) { buttonSize.toPx() }
+    var offset by remember { mutableStateOf(Offset(screenWidthPx -buttonSizePx, screenHeightPx/10*7)) }
+//        var bottomNavPx = insets.getBottom(density)
+    Box(modifier = Modifier.fillMaxSize()) {
+
+        // 可拖动悬浮按钮
+        Box(
+            modifier = Modifier
+                .size(60.dp)
+                .offset {
+                    IntOffset(
+                        offset.x.roundToInt(),
+                        offset.y.roundToInt()
+                    )
+                }
+                .background(
+                    color = buttonColor,
+                    shape = CircleShape
+                )
+                .shadow(
+                    elevation = 60.dp,
+                    shape = CircleShape,
+                    ambientColor = if (isEnabled) MaterialTheme.colors.primary else Color.Gray,
+                    spotColor = if (isEnabled) MaterialTheme.colors.primaryVariant else Color.DarkGray
+                )
+                .pointerInput(Unit) {
+                    detectDragGesturesAfterLongPress(
+                        onDrag = { _, dragAmount ->
+                            offset =Offset(
+                                (offset.x + dragAmount.x).coerceIn(0f, screenWidthPx - buttonSizePx),
+                                (offset.y + dragAmount.y).coerceIn(0f, screenHeightPx - buttonSizePx -screenHeightPx/6)
+                            )
+                        }
+                    )
+                }
+                .clickable {
+                    //点击事件
+                    onFabClick(isEnabled)
+//                    isEnabled = !isEnabled
+//                    vm.serviceBound.value= isEnabled
+//                    Log.d("fab_isEnable",isEnabled.toString())
+
+//                    Log.d("fab_0",vm.serviceBound.value.toString())
+//                    Log.d("fab_00",vm._serviceBound.value.toString())
+//
+//                    Log.d("fab_click",uiState.toString())
+
+                },
+            contentAlignment = Alignment.Center
+        ) {
+            Crossfade(
+                targetState = isEnabled,
+                animationSpec = tween(durationMillis = 300)
+            ) { enabled ->
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    Icon(
+                        imageVector = if (enabled) Icons.Default.Block else Icons.Default.PlayArrow,
+                        contentDescription = if (enabled) main.getString(R.string.fab_stop) else main.getString(R.string.fab_play),
+                        tint = iconTint,
+                        modifier = Modifier.size(32.dp)
+                    )
+                    Text(
+                        text = if (enabled) main.getString(R.string.fab_stop) else main.getString(R.string.fab_play),
+                        color = iconTint,
+                        fontSize = 10.sp
+                    )
                 }
             }
         }
-        return finalstr
     }
 }

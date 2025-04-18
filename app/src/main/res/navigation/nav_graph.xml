@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/navigation_main"
+    >
+    <fragment
+        android:id="@+id/navigation_main"
+        android:name="com.feng.wstunnela.FragmentMain"
+        android:label="main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_navigation_main_to_navigation_log"
+            app:destination="@+id/navigation_log"
+            app:popUpTo="@+id/navigation_log"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_log"
+        android:name="com.feng.wstunnela.FragmentLog"
+        android:label="log"
+        tools:layout="@layout/fragment_log" >
+        <action
+            android:id="@+id/action_navigation_log_to_navigation_main"
+            app:destination="@+id/navigation_main"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_config"
+        android:name="com.feng.wstunnela.FragmentConfig"
+        android:label="config"
+        tools:layout="@layout/fragment_config" >
+        <action
+            android:id="@+id/action_navigation_config_to_navigation_main"
+            app:destination="@+id/navigation_main" />
+    </fragment>
+</navigation>
