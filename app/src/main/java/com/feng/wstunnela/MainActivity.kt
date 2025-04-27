@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             // 这里编写Compose函数内容
             val onFabClick: (Boolean) -> Unit = { isEnabled ->
                 // 这里可以编写fab点击事件
-                val checkcmd= vm.rule.value?.content?.contains("wstunnel") == true
+                var checkcmd= vm.rule.value?.content?.contains("wstunnel") == true
                 //未启动且命令有包含wstunnel时
 //                vm.fabstate.value=!(vm.fabstate.value)
                 if(!isEnabled && checkcmd){
@@ -276,7 +276,7 @@ class MainActivity : AppCompatActivity() {
             )
         }
         vm.selectedRuleId.value=loadedRules.selectedRuleId
-        if (loadedRules.selectedRuleId?.isNotEmpty() == true) {
+        if (loadedRules.selectedRuleId.isNotEmpty() == true) {
             val targetRule = loadedRules.rules.find { it.id == loadedRules.selectedRuleId }
             targetRule?.let { rule ->
                 vm.updateRule(rule) // 确保传递要更新的规则对象
