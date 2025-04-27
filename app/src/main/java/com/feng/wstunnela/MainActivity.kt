@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.Crossfade
@@ -87,6 +88,19 @@ class MainActivity : AppCompatActivity() {
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //检测back返回行为
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (vm.serviceBound.value==false) {
+                    //服务没有启动时退出
+                    finish() // 退出 Activity
+                } else {
+                    //服务启动后仅仅只是返回桌面
+                    this@MainActivity.moveTaskToBack(true)
+                }
+            }
+        })
         // 按钮状态（默认禁用）
 //        var isEnabled :mutableStateOf(false) }
 //        isEnabled=vm.serviceBound.value==true
