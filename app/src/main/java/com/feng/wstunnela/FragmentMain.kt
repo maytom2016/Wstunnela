@@ -72,8 +72,11 @@ class FragmentMain : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val ctx=context as MainActivity
-        val rules=ctx.readcmd()
-        vm.updateRules(rules)
+
+        if(vm.rules.value.isEmpty()) {
+            val rules = ctx.readcmd()
+            vm.updateRules(rules)
+        }
 
 //        return inflater.inflate(R.layout.fragment_main, container, false)
         return ComposeView(requireContext()).apply {
@@ -85,7 +88,7 @@ class FragmentMain : Fragment() {
                     ctx.navigate_config()
                     vm.updateRule(rule)
                     vm.selectedRuleId.value=rule.id
-                    vm.selectedRuleId.value?.let { Log.d("select",it) }
+//                    vm.selectedRuleId.value?.let { Log.d("select",it) }
                     vm.allowedittextinput=false
                 }
                 val onDeleteClick: (Rule) -> Unit = { rule ->
@@ -142,8 +145,8 @@ class FragmentMain : Fragment() {
                 key = { index: Int -> rules[index].id }
             ) { index ->
                 val rule = rules[index]
-                val isSelected = rule.id == selectedRuleId
-
+                var isSelected = rule.id == selectedRuleId
+                Log.d("Performance", "RuleItem recomposed for ${rule.id}")
                 RuleItem(
                     rule = rule,
                     onEditClick = { if (isEnabled) onEditClick(rule) },
