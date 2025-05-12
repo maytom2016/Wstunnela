@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -63,6 +64,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 import kotlin.math.roundToInt
 
 lateinit var main: MainActivity
@@ -98,6 +101,8 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     //服务启动后仅仅只是返回桌面
                     this@MainActivity.moveTaskToBack(true)
+                    //并且提示
+                    Toast.makeText(this@MainActivity, R.string.exit_remind, Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -188,26 +193,42 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        crontask.cancel()
+        if(this::crontask.isInitialized && !crontask.isCancelled) {
+            crontask.cancel()
+        }
     }
+    fun start_download_wsexec_file(tarfilestr:String)
+    {
+        val dialog = DialogUtil.showDownloadProgress(this,this.getString(R.string.download_remind))
+        val view = dialog.findViewById<ProgressBar>(R.id.d_progress_bar)
+        CoroutineScope(Dispatchers.IO).launch {
+            FileManage.copybinfromgithub(dialog,view,tarfilestr)
+        }
+        dialog.findViewById<Button>(R.id.d_cancel_button).setOnClickListener {
+            // 从父布局中移除整个视图
+            dialog.dismiss()
 
+        }
+    }
     fun check_wsexec_file()
     {
         var tarfilestr="$filesDir/test.tar.gz"
         if(!File(binpath).exists() && !File(tarfilestr).exists()) {
-            val dialog = DialogUtil.showDownloadProgress(this,this.getString(R.string.download_remind))
-            val view = dialog.findViewById<ProgressBar>(R.id.d_progress_bar)
-            CoroutineScope(Dispatchers.IO).launch {
-                FileManage.copybinfromgithub(dialog,view,tarfilestr)
-            }
+            start_download_wsexec_file(tarfilestr)
         }
         else if(!File(binpath).exists() && File(tarfilestr).exists())
         {
-            //解压wstunnel文件到执行目录
-            val lastIndex = binpath.lastIndexOf('/')
-            val binpath2 = binpath.substring(0,lastIndex + 1)
-            if(File(tarfilestr).exists()){
-                DownloadManager.extractTarGz(tarfilestr,binpath2)
+            if(DownloadManager.CheckTarGzFile(tarfilestr)) {
+                //解压wstunnel文件到执行目录
+                val lastIndex = binpath.lastIndexOf('/')
+                val binpath2 = binpath.substring(0, lastIndex + 1)
+                if (File(tarfilestr).exists()) {
+                    DownloadManager.extractTarGz(tarfilestr, binpath2)
+                }
+            }
+            else{
+                File(tarfilestr).delete()
+                start_download_wsexec_file(tarfilestr)
             }
         }
     }

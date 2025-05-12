@@ -35,5 +35,7 @@
     <string name="fab_play">launch</string>>
     <string name="fab_stop">stop</string>>
 
+    <string name="exit_remind">Wstunnel service will have been running in the background</string>>
 
+    <string name="cancel_button">Cancel</string>>
 </resources>

@@ -37,6 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Streaming
 import retrofit2.http.Url
+import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
@@ -46,6 +47,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.UUID
+import java.util.zip.GZIPInputStream
 import kotlin.collections.map
 import kotlin.random.Random
 
@@ -200,7 +202,7 @@ object DialogUtil {
             window?.run {
                 setLayout(
                     700,
-                    400
+                    600
                 )
             }
             setContentView(
@@ -210,7 +212,9 @@ object DialogUtil {
                     title?.let { text ->
                         findViewById<TextView>(R.id.d_title).text = text
                     }
+
                 }
+
             )
         }
     }
@@ -282,6 +286,34 @@ object DownloadManager {
                     file.setLastModified(nextEntry.lastModifiedDate.time)
                 }
             }
+        }
+    }
+    fun CheckTarGzFile(inputFile: String): Boolean {
+        return try {
+            // 检查文件是否存在
+            val file = File(inputFile)
+            if (!file.exists() || !file.isFile) {
+                return false
+            }
+            // 尝试读取GZIP头部
+            BufferedInputStream(FileInputStream(file)).use { bis ->
+                GZIPInputStream(bis).use { gzipIn ->
+                    // 尝试读取TAR内容
+                    TarArchiveInputStream(gzipIn).use { tarIn ->
+                        // 尝试遍历TAR条目，如果出现异常则文件不完整
+                        while (tarIn.nextTarEntry != null) {
+                            // 只是读取元数据，不实际解压内容
+                        }
+                    }
+                }
+            }
+            true
+        } catch (e: IOException) {
+            // 捕获任何IO异常（如损坏的GZIP或TAR格式）
+            false
+        } catch (e: Exception) {
+            // 捕获其他可能的异常
+            false
         }
     }
     fun download(url: String, file: File): Flow<DownloadState> {

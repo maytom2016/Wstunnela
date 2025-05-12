@@ -36,7 +36,6 @@ class MyService : Service() {
         return myBinder
     }
 
-
     override fun onCreate() {
         super.onCreate()
         Log.d("data","onCreate")
@@ -49,6 +48,29 @@ class MyService : Service() {
         //设置通知栏通知打开软件，默认是打开应用详情
         val intent=Intent(this,MainActivity::class.java)
         val pi= PendingIntent.getActivity(this,0,intent, PendingIntent.FLAG_IMMUTABLE)
+        //设置通知等级
+        var notipriority=0
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
+        {
+            notipriority=NotificationCompat.PRIORITY_MAX
+        }
+        //android 6到android 8
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O && Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+            notipriority=NotificationCompat.PRIORITY_HIGH
+        }
+        //android 9以上
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notipriority= when {
+                // Android 11+ 需要特殊处理
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.R ->
+                    NotificationManager.IMPORTANCE_HIGH
+                // EMUI 设备需要最高优先级
+                Build.MANUFACTURER.equals("HUAWEI", ignoreCase = true) ->
+                    NotificationManager.IMPORTANCE_MAX
+                else -> NotificationManager.IMPORTANCE_HIGH
+            }
+        }
+
         //设置通知配置
         val notification= NotificationCompat.Builder(this,"my_service")
             .setContentTitle(this.getString(R.string.Notificationtitle))
@@ -56,8 +78,13 @@ class MyService : Service() {
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setDefaults(Notification.DEFAULT_SOUND)
             .setContentIntent(pi)
+            //保活配置
+            .setPriority(notipriority)
+            .setCategory(Notification.CATEGORY_SERVICE)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+
             .build()
-        startForeground(1,notification)
+        startForeground(18594,notification)
     }
 
     override fun onDestroy() {

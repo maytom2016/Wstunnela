@@ -39,6 +39,10 @@ class FragmentConfig : Fragment(){
 
     private fun setupViews() {
         val ctx=context as MainActivity
+        if(vm.wsver_textView1.isEmpty())
+        {
+            ctx.getwstunnelversion()
+        }
         binding.textView1.text=vm.wsver_textView1
         binding.textView21.text=vm.arch_textView21
 
