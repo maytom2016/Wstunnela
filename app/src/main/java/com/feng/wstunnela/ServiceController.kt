@@ -1,18 +1,11 @@
+package com.feng.wstunnela
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.net.Uri
 import android.os.IBinder
-import android.provider.Settings
-import android.util.Log
-
-import com.feng.wstunnela.MainActivity
-import com.feng.wstunnela.MyService
 
 // ServiceController.kt
 class ServiceController(private val context: Context) {
@@ -70,13 +63,14 @@ class ServiceController(private val context: Context) {
 
     private fun showRestrictionDialog(ctx: Context) {
         val dialog = AlertDialog.Builder(ctx)
-            .setTitle("后台运行权限提醒")
-            .setMessage("为保证服务正常运行，请关闭电池优化并允许后台运行")
-            .setPositiveButton("去设置") { _, _ ->
-                BatteryOptimizationChecker
-                    .openRestrictionSettings(ctx)
+            .setTitle(ctx.getString(R.string.battery_permission_title))
+            .setMessage(ctx.getString(R.string.battery_permission_content))
+            .setPositiveButton(ctx.getString(R.string.background_running_set)) { _, _ ->
+//                BatteryOptimizationChecker.openRestrictionSettings(ctx)
+
+//                BatteryOptimizationChecker.openAutoStartSettings(ctx)
             }
-            .setNegativeButton("取消") { _, _ ->
+            .setNegativeButton(ctx.getString(R.string.cancel_button)) { _, _ ->
 //                stopSelf() // 用户拒绝则停止服务
             }
             .setCancelable(false)

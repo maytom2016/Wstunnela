@@ -38,4 +38,13 @@
     <string name="exit_remind">Wstunnel service will have been running in the background</string>>
 
     <string name="cancel_button">Cancel</string>>
+    <string name="battery_permission_title">Background execution permission</string>>
+    <string name="battery_permission_content">To ensure the service runs properly, please disable battery optimization and allow background execution.</string>>
+    <string name="background_running_set">To Setting</string>>
+    <string name="ignore_battery_optimization">Allowed Ignoring Battery Optimization</string>
+    <string name="not_save_power_mode">Stop Save Power Mode</string>
+    <string name="android_backgroundRestricted">Unlimited by Android 8+ BackgroundRestricted</string>
+    <string name="setting_is_ok">Finish Setting</string>
+
+    <string name="button_backgroundrunning">How To Keep Services Running In the BackGround</string>
 </resources>

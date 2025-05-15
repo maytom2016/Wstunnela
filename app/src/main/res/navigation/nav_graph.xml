@@ -36,5 +36,18 @@
         <action
             android:id="@+id/action_navigation_config_to_navigation_main"
             app:destination="@+id/navigation_main" />
+        <action
+            android:id="@+id/action_navigation_config_to_navigation_battery"
+            app:destination="@id/navigation_battery"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navigation_config"
+            app:popUpToInclusive="false"/>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_battery"
+        android:name="com.feng.wstunnela.FragmentBattery"
+        android:label="battery"
+        tools:layout="@layout/fragment_battery" >
+
     </fragment>
 </navigation>

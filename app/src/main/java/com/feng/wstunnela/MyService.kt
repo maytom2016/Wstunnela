@@ -107,12 +107,7 @@ class MyService : Service() {
             var text=""
             for(value in textrecycle) {
                 text+= "$value<br>"
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-                    vm.runlog_textvie4.value= Html.fromHtml(text,Html.FROM_HTML_MODE_LEGACY)
-                } else {
-                    vm.runlog_textvie4.value= Html.fromHtml(text)
-                }
+                vm.runlog_textvie4.value= Html.fromHtml(text,Html.FROM_HTML_MODE_LEGACY)
             }
         }
     }

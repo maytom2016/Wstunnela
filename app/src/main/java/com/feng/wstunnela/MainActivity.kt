@@ -1,7 +1,5 @@
 package com.feng.wstunnela
 
-
-import ServiceController
 import android.content.Context
 import android.os.Bundle
 import android.util.AttributeSet
@@ -53,8 +51,11 @@ import androidx.compose.ui.unit.sp
 import androidx.core.text.toSpanned
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.NavOptions
 import com.feng.wstunnela.TomlConfigManager.loadRules
 import com.feng.wstunnela.TomlConfigManager.saveRules
 import com.feng.wstunnela.databinding.ActivityMainBinding
@@ -64,8 +65,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
 import kotlin.math.roundToInt
 
 lateinit var main: MainActivity
@@ -82,6 +81,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         main=this
+        BatteryOptimizationChecker.ctx=main
 //        savecmd()
 //        vm.selectedRuleId.value="7ba65000-d7ab-45d0-bd2a-fbd52e7577b9"
         vm.filesDir=filesDir.toString()
@@ -95,7 +95,13 @@ class MainActivity : AppCompatActivity() {
         //检测back返回行为
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (vm.serviceBound.value==false) {
+                val navController = findNavController(R.id.nav_host_fragment)
+                val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                val currentFragment = navHostFragment?.childFragmentManager?.fragments?.firstOrNull()
+                if(currentFragment is FragmentBattery){
+                    navController.navigateUp()
+                }
+                else if (vm.serviceBound.value==false ) {
                     //服务没有启动时退出
                     finish() // 退出 Activity
                 } else {
@@ -106,7 +112,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-        // 按钮状态（默认禁用）
+        // 按钮状态（默认禁用）showActivity
 //        var isEnabled :mutableStateOf(false) }
 //        isEnabled=vm.serviceBound.value==true
         val composeView = findViewById<ComposeView>(R.id.compose_view)
@@ -150,6 +156,22 @@ class MainActivity : AppCompatActivity() {
         // 设置底部导航与 NavController 的绑定
         binding.bottomNav.setupWithNavController(navController)
 
+        //重写底部导航的点击行为
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            // 手动处理导航
+            val startDestinationId = navController.graph.findStartDestination().id
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(startDestinationId, true)
+                .setLaunchSingleTop(true)
+                .setRestoreState(true)
+                .build()
+            this.supportActionBar?.apply {
+                setDisplayHomeAsUpEnabled(false)
+                setDisplayShowHomeEnabled(false)
+            }
+            navController.navigate(item.itemId, null, navOptions)
+            true
+        }
 //        NavigationUI.setupWithNavController(bottomNavigationView,navController )
 //        navController.setGraph(R.navigation.nav_graph)
 //        setupActionBarWithNavController(navController, appBarConfiguration)
@@ -196,6 +218,11 @@ class MainActivity : AppCompatActivity() {
         if(this::crontask.isInitialized && !crontask.isCancelled) {
             crontask.cancel()
         }
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        // 统一处理 ActionBar 返回按钮点击
+        return findNavController(R.id.nav_host_fragment).navigateUp()
+                || super.onSupportNavigateUp()
     }
     fun start_download_wsexec_file(tarfilestr:String)
     {

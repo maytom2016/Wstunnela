@@ -3,11 +3,14 @@ package com.feng.wstunnela
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
 import android.text.Spanned
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.result.ActivityResult
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -82,6 +85,11 @@ class vm : ViewModel() {
     var selectedRuleId=mutableStateOf("")
     //是否允许edittext输出到rule，暂无实际作用，备用
     var allowedittextinput=true
+    //电池优化事件回调，用来更新ui
+    lateinit var batteryOptimizationLauncher:ManagedActivityResultLauncher<Intent, ActivityResult>
+    //后台运行权限设置事件回调，用来更新ui
+    lateinit var backgroundExecutionLauncher:ManagedActivityResultLauncher<Intent, ActivityResult>
+
     fun updateServiceBound(Bool: Boolean)
     {
         _serviceBound.value=Bool
@@ -377,8 +385,7 @@ object FileManage {
     fun copybin(con: Context,strOutFileName: String):Boolean {
         val binpath=vm.binpath
         val dirstr=(".+/".toRegex()).find(binpath)
-        val dir=File(dirstr?.value)
-
+        val dir=File(dirstr!!.value)
         if(dir.exists()) {
             val fis: InputStream?
             val fos = FileOutputStream(strOutFileName)

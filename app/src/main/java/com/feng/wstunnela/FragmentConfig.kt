@@ -9,11 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import com.feng.wstunnela.databinding.FragmentConfigBinding
+import androidx.navigation.findNavController
 
 class FragmentConfig : Fragment(){
     private var _binding: FragmentConfigBinding? = null
@@ -48,21 +53,24 @@ class FragmentConfig : Fragment(){
 
 //        updateUI(vm.serviceBound.value == true,ctx)
         binding.button.setOnClickListener {
-            val check=chekcklegalwstunnelcmd()
-            if (binding.button.text == getString(R.string.buttonstart)&& check) {
-
-                vm.cmdstr=vm.binpath+binding.EditTextRuleContent.text.toString().replace("wstunnel","").replace("\"","").replace("\'","")
-                ctx.startService()
-//                updateUI(true,ctx)
-            }
-            else if(binding.button.text==getString(R.string.buttonstart)&&!check ){
-                Toast.makeText(ctx, R.string.illlegalwstunnelcmd, Toast.LENGTH_SHORT).show()
-            }
-            else {
-
-                ctx.stopService()
-//                updateUI(false,ctx)
-            }
+//            val check=chekcklegalwstunnelcmd()
+//            if (binding.button.text == getString(R.string.buttonstart)&& check) {
+//
+//                vm.cmdstr=vm.binpath+binding.EditTextRuleContent.text.toString().replace("wstunnel","").replace("\"","").replace("\'","")
+//                ctx.startService()
+////                updateUI(true,ctx)
+//            }
+//            else if(binding.button.text==getString(R.string.buttonstart)&&!check ){
+//                Toast.makeText(ctx, R.string.illlegalwstunnelcmd, Toast.LENGTH_SHORT).show()
+//            }
+//            else {
+//
+//                ctx.stopService()
+////                updateUI(false,ctx)
+//            }
+//            val navHostFragment = ctx.supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            val navController= view?.let { it.findNavController() }
+            navController?.navigate(R.id.action_navigation_config_to_navigation_battery)
         }
         vm.serviceBound.observe(viewLifecycleOwner) { serviceBound ->
             updateUI(serviceBound  == true,ctx)
@@ -114,9 +122,17 @@ class FragmentConfig : Fragment(){
 
     }
 
-    private fun updateUI(started: Boolean,con: Context) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(false)
+            setDisplayShowHomeEnabled(false)
+        }
+    }
+
+    private fun updateUI(started: Boolean, con: Context) {
         binding.apply {
-            button.text = if (!started) getString(R.string.buttonstart) else getString(R.string.buttonstop)
+//            button.text = if (!started) getString(R.string.buttonstart) else getString(R.string.buttonstop)
             textView31.text=if (!started) getString(R.string.buttonstop) else getString(R.string.buttonstart)
             val font_color=if(started)ContextCompat.getColor(con,R.color.forestgreen)else ContextCompat.getColor(con,R.color.red)
             binding.textView31.setTextColor(font_color)

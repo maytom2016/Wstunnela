@@ -22,9 +22,11 @@
     <string name="download_remind">正在从github获取最新的wstunnel...</string>
 
     <string name="edit_hint_text">规则名</string>
-    <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>>
+    <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>
+    >
     <string name="wstunnel_client_temp_s">客户端模板</string>>
-    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>>
+    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>
+    >
     <string name="wstunnel_server_temp_s">服务端模板</string>>
 
     <string name="tab_main">主页</string>>
@@ -37,5 +39,15 @@
     <string name="exit_remind">Wstunnel服务将继续在后台运行</string>>
     <string name="cancel_button">取消</string>>
 
+    <string name="battery_permission_title">后台运行权限提醒</string>>
+    <string name="battery_permission_content">为保证服务正常运行，请关闭电池优化并允许后台运行</string>
+    >
+    <string name="background_running_set">去设置</string>
 
+    <string name="ignore_battery_optimization">忽略电池优化</string>
+    <string name="not_save_power_mode">关闭省电模式</string>
+    <string name="android_backgroundRestricted">关闭安卓8+后台运行限制</string>
+    <string name="setting_is_ok">设置完毕</string>
+
+    <string name="button_backgroundrunning">如何保持服务在后台持续运行</string>
 </resources>

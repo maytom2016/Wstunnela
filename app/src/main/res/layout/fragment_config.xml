@@ -185,10 +185,12 @@
 
             <Button
                 android:id="@+id/button"
-                android:layout_width="150dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/buttonstart"
+                android:text="@string/button_backgroundrunning"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/rounded_button_bg"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/guidelineH0.8"
