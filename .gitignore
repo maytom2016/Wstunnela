@@ -14,3 +14,4 @@
 .cxx
 local.properties
 /gradle/wrapper/gradle-wrapper.properties
+settings.gradle.kts
