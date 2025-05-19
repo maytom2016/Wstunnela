@@ -1,6 +1,9 @@
 package com.feng.wstunnela
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
@@ -77,11 +80,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var binpath:String
 //    var bottomNavPx: Int=0
     val vm: vm by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         main=this
         BatteryOptimizationChecker.ctx=main
+
 //        savecmd()
 //        vm.selectedRuleId.value="7ba65000-d7ab-45d0-bd2a-fbd52e7577b9"
         vm.filesDir=filesDir.toString()
@@ -297,7 +300,7 @@ class MainActivity : AppCompatActivity() {
         if(this::serviceController.isInitialized) {
             serviceController.unbindService()
         }
-        vm.runlog_textvie4.value=this.getString(R.string.errormessage).toSpanned()
+//        vm.runlog_textvie4.value=this.getString(R.string.errormessage).toSpanned()
 //        vm.serviceBound.value=false
         vm.updateServiceBound(false)
     }

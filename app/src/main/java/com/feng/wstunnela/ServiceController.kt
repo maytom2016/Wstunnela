@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
+import android.util.Log
+import android.widget.Toast
 
 // ServiceController.kt
 class ServiceController(private val context: Context) {
@@ -39,10 +41,10 @@ class ServiceController(private val context: Context) {
     }
     fun bindService(command: String) {
         val ctx=context as MainActivity
-        if (!BatteryOptimizationChecker.isIgnoringBatteryOptimizations(ctx)) {
-            showRestrictionDialog(ctx)
-            return // 暂不启动服务
-        }
+//        if (!BatteryOptimizationChecker.isIgnoringBatteryOptimizations(ctx)) {
+//            showRestrictionDialog(ctx)
+//            return // 暂不启动服务
+//        }
         cmdstr=command
         val intent = Intent(context, MyService::class.java)
 //            .apply {
@@ -55,6 +57,14 @@ class ServiceController(private val context: Context) {
         if (serviceBound) {
             context.unbindService(connection)
             serviceBound = false
+        }
+        //提示命令错误
+        val ctx=context as MainActivity
+//        Log.d("runlog",ctx.vm.runlog_textvie4.value.toString())
+        if(ctx.vm.runlog_textvie4.value.toString().contains("Usage: wstunnel client") == true)
+        {
+            val message="${ctx.getString(R.string.illlegalwstunnelcmd)} : ${ctx.vm.runlog_textvie4.value}"
+            Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
         }
     }
 

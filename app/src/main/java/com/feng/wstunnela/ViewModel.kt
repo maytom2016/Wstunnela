@@ -569,7 +569,7 @@ object TomlConfigManager {
             val file = getConfigFile(context, fileName)
             val config = RulesConfig(rules,ctx.vm.selectedRuleId.value)
             val tomlString = Toml.encodeToString(config)
-            println(tomlString)
+//            println(tomlString)
             file.writeText(tomlString)
             true
         } catch (e: Exception) {

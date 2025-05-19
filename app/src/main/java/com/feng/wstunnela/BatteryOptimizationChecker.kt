@@ -124,8 +124,10 @@ object BatteryOptimizationChecker {
      * 跳转到指定应用的首页
      */
     private fun showActivity(packageName: String) {
-        val intent = ctx.getPackageManager().getLaunchIntentForPackage(packageName)
-        ctx.vm.backgroundExecutionLauncher.launch(intent)
+        val intent = ctx.packageManager.getLaunchIntentForPackage(packageName)
+        if(intent!=null) {
+            ctx.vm.backgroundExecutionLauncher.launch(intent)
+        }
     }
     /**
      * 跳转到指定应用的指定页面

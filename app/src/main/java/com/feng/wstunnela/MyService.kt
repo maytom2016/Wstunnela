@@ -89,14 +89,17 @@ class MyService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.d("data","onDestroy")
+    }
 
+    override fun onUnbind(intent: Intent?): Boolean {
         CoroutineScope(Dispatchers.IO).launch {
             exit()
         }
-
-        Log.d("data","onDestroy")
+        return super.onUnbind(intent)
     }
-    fun wstunnel(cmdstr:String,vm:vm){
+
+    fun wstunnel(cmdstr:String, vm:vm){
 
         val strs =cmdstr.split("\\s+".toRegex()).toList()
         val textrecycle = Channel<String>()
@@ -108,7 +111,9 @@ class MyService : Service() {
             for(value in textrecycle) {
                 text+= "$value<br>"
                 vm.runlog_textvie4.value= Html.fromHtml(text,Html.FROM_HTML_MODE_LEGACY)
+                Log.d("runlog1",vm.runlog_textvie4.value.toString())
             }
+
         }
     }
 
@@ -136,8 +141,14 @@ class MyService : Service() {
         while (null != withContext(Dispatchers.IO) {
                 bfr.readLine()
             }.also { line = it }) {
-            Log.e("info", line!!)
-            channel.send(makeoutputstr(line))
+//            Log.d("info", line!!)
+            var output=makeoutputstr(line)
+            if (output.isEmpty() && line.toString().isNotEmpty()){
+                channel.send(line.toString())
+            }
+            else if(output.isNotEmpty()) {
+                channel.send(output)
+            }
         }
         withContext(Dispatchers.IO) {
             process.waitFor()

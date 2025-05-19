@@ -5,7 +5,11 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     tools:context=".FragmentLog">
-
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:fillViewport="true">
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
@@ -14,11 +18,10 @@
         android:fontFamily="sans-serif-condensed"
         android:gravity="start|top"
         android:padding="16dp"
-        android:scrollbars="vertical"
         android:text="@string/errormessage"
         android:textSize="18sp"
         android:textStyle="bold"
         android:lineSpacingExtra="4dp"
          />
-
+    </androidx.core.widget.NestedScrollView>
 </FrameLayout>
