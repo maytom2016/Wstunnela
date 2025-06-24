@@ -13,6 +13,6 @@ https://github.com/erebe/wstunnel
 
 ## Binary files Distribution Instructions
 
-Copyright (c) 2016-2024, Erèbe - Romain Gerard
+Copyright (c) 2016-2025, Erèbe - Romain Gerard
 
 All rights reserved.
