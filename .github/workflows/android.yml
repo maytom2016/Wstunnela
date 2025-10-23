@@ -33,6 +33,10 @@ jobs:
           sed -i "s/versionName = \".*\"/versionName = \"${{ steps.extract_version.outputs.version }}\"/" ${{ env.main_project_module }}/build.gradle.kts
           # 打印修改后的文件（调试用）
           cat ${{ env.main_project_module }}/build.gradle.kts | grep versionName
+          
+      # 更新wstunnel
+      - name: Run update_bin.sh
+        run: bash ./update_bin.sh
 
       # 后续步骤（保持不变）
       - name: Set up JDK
