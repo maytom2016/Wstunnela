@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">wstunnela</string>
+    <string name="wstunnel_vesion">إصدار WS:</string>
+    <string name="system_architecture">هندسة النظام:</string>
+    <string name="loaded">الحالة:</string>
+    <string name="buttonstart">تفعيل</string>
+    <string name="buttonstop">إيقاف</string>
+    <string name="nosupportremind">جهازك غير مدعوم</string>
+    <string name="exam_cmd">wstunnel client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
+    <string name="errormessage">الخدمة غير قيد التشغيل</string>
+    <string name="Notificationtitle">wstunnela</string>
+    <string name="Notificationcontent">wstunnel يعمل في الخلفية</string>
+    <string name="illlegalwstunnelcmd">تم اكتشاف خطأ في أمر التشغيل</string>
+
+    <string name="servicename">com.feng.wstunnela.MyService</string>
+    <string name="wsarm64">wstunnel_arm64</string>
+    <string name="wsamd64">wstunnel_amd64</string>
+    <string name="binfilepath">/data/data/com.feng.wstunnela/wstunnel</string>
+
+    <string name="arch_text">arm64/amd64</string>
+    <string name="version_text">x.x.x</string>
+    <string name="download_remind">جلب أحدث إصدار من wstunnel من GitHub...</string>
+
+    <string name="edit_hint_text">اسم القاعدة</string>
+    <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>
+    <string name="wstunnel_client_temp_s">قالب العميل</string>
+    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>
+    <string name="wstunnel_server_temp_s">قالب الخادم</string>
+
+    <string name="tab_main">الرئيسية</string>
+    <string name="tab_config">الإعدادات</string>
+    <string name="tab_log">السجلات</string>
+
+    <string name="fab_play">بدء</string>
+    <string name="fab_stop">إيقاف</string>
+
+    <string name="exit_remind">خدمة Wstunnel ستستمر في العمل في الخلفية</string>
+    <string name="cancel_button">إلغاء</string>
+
+    <string name="battery_permission_title">تنبيه إذن التشغيل في الخلفية</string>
+    <string name="battery_permission_content">لضمان التشغيل السليم للخدمة، يرجى إيقاف تحسين البطارية والسماح بالتشغيل في الخلفية</string>
+    <string name="background_running_set">انتقل إلى الإعدادات</string>
+
+    <string name="ignore_battery_optimization">تجاهل تحسين البطارية</string>
+    <string name="not_save_power_mode">إيقاف وضع توفير الطاقة</string>
+    <string name="android_backgroundRestricted">إيقاف قيود الخلفية في أندرويد 8+</string>
+    <string name="setting_is_ok">تم الإعداد</string>
+
+    <string name="button_backgroundrunning">كيفية الحفاظ على استمرارية الخدمة في الخلفية</string>
+</resources>

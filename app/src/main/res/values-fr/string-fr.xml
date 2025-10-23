@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">wstunnela</string>
+    <string name="wstunnel_vesion">Version WS :</string>
+    <string name="system_architecture">Architecture système :</string>
+    <string name="loaded">Statut :</string>
+    <string name="buttonstart">Activer</string>
+    <string name="buttonstop">Désactiver</string>
+    <string name="nosupportremind">Votre appareil n\'est pas pris en charge</string>
+    <string name="exam_cmd">wstunnel client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
+    <string name="errormessage">Service non démarré</string>
+    <string name="Notificationtitle">wstunnela</string>
+    <string name="Notificationcontent">wstunnel fonctionne en arrière-plan</string>
+    <string name="illlegalwstunnelcmd">Commande de démarrage incorrecte détectée</string>
+
+    <string name="servicename">com.feng.wstunnela.MyService</string>
+    <string name="wsarm64">wstunnel_arm64</string>
+    <string name="wsamd64">wstunnel_amd64</string>
+    <string name="binfilepath">/data/data/com.feng.wstunnela/wstunnel</string>
+
+    <string name="arch_text">arm64/amd64</string>
+    <string name="version_text">x.x.x</string>
+    <string name="download_remind">Téléchargement de la dernière version de wstunnel depuis GitHub…</string>
+
+    <string name="edit_hint_text">Nom de la règle</string>
+    <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>
+    <string name="wstunnel_client_temp_s">Modèle client</string>
+    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>
+    <string name="wstunnel_server_temp_s">Modèle serveur</string>
+
+    <string name="tab_main">Accueil</string>
+    <string name="tab_config">Paramètres</string>
+    <string name="tab_log">Journal</string>
+
+    <string name="fab_play">Démarrer</string>
+    <string name="fab_stop">Arrêter</string>
+
+    <string name="exit_remind">Le service Wstunnel continue de fonctionner en arrière-plan</string>
+    <string name="cancel_button">Annuler</string>
+
+    <string name="battery_permission_title">Autorisation d\'exécution en arrière-plan</string>
+    <string name="battery_permission_content">Pour assurer le bon fonctionnement du service, veuillez désactiver l\'optimisation de la batterie et autoriser l\'exécution en arrière-plan</string>
+    <string name="background_running_set">Paramètres</string>
+
+    <string name="ignore_battery_optimization">Ignorer l\'optimisation de la batterie</string>
+    <string name="not_save_power_mode">Désactiver le mode économie d\'énergie</string>
+    <string name="android_backgroundRestricted">Désactiver la restriction Android 8+ arrière-plan</string>
+    <string name="setting_is_ok">Paramètres terminés</string>
+
+    <string name="button_backgroundrunning">Comment maintenir le service en arrière-plan</string>
+</resources>

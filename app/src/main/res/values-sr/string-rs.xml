@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">wstunnela</string>
+    <string name="wstunnel_vesion">WS верзија:</string>
+    <string name="system_architecture">Системска архитектура:</string>
+    <string name="loaded">Статус:</string>
+    <string name="buttonstart">Омогући</string>
+    <string name="buttonstop">Онемогући</string>
+    <string name="nosupportremind">Ваш уређај није подржан</string>
+    <string name="exam_cmd">wstunnel client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
+    <string name="errormessage">Сервис није покренут</string>
+    <string name="Notificationtitle">wstunnela</string>
+    <string name="Notificationcontent">wstunnel ради у позадини</string>
+    <string name="illlegalwstunnelcmd">Откривена грешка у команди покретања</string>
+
+    <string name="servicename">com.feng.wstunnela.MyService</string>
+    <string name="wsarm64">wstunnel_arm64</string>
+    <string name="wsamd64">wstunnel_amd64</string>
+    <string name="binfilepath">/data/data/com.feng.wstunnela/wstunnel</string>
+
+    <string name="arch_text">arm64/amd64</string>
+    <string name="version_text">x.x.x</string>
+    <string name="download_remind">Преузимање најновије верзије wstunnel са GitHub-а...</string>
+
+    <string name="edit_hint_text">Назив правила</string>
+    <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>
+    <string name="wstunnel_client_temp_s">Шаблон клијента</string>
+    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>
+    <string name="wstunnel_server_temp_s">Шаблон сервера</string>
+
+    <string name="tab_main">Почетна</string>
+    <string name="tab_config">Подешавања</string>
+    <string name="tab_log">Дневник</string>
+
+    <string name="fab_play">Покрени</string>
+    <string name="fab_stop">Заустави</string>
+
+    <string name="exit_remind">Wstunnel сервис ће наставити да ради у позадини</string>
+    <string name="cancel_button">Откажи</string>
+
+    <string name="battery_permission_title">Обавештење о дозволи за рад у позадини</string>
+    <string name="battery_permission_content">Да бисте обезбедили правилан рад сервиса, искључите оптимизацију батерије и дозволите рад у позадини</string>
+    <string name="background_running_set">Иди на подешавања</string>
+
+    <string name="ignore_battery_optimization">Игнориши оптимизацију батерије</string>
+    <string name="not_save_power_mode">Искључи режим уштеде енергије</string>
+    <string name="android_backgroundRestricted">Искључи ограничења позадине за Android 8+</string>
+    <string name="setting_is_ok">Подешавања завршена</string>
+
+    <string name="button_backgroundrunning">Како одржати сервис у непрекидном раду у позадини</string>
+</resources>

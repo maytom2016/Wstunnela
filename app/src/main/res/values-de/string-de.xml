@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">wstunnela</string>
+    <string name="wstunnel_vesion">WS-Version:</string>
+    <string name="system_architecture">Systemarchitektur:</string>
+    <string name="loaded">Status:</string>
+    <string name="buttonstart">Aktivieren</string>
+    <string name="buttonstop">Deaktivieren</string>
+    <string name="nosupportremind">Ihr Gerät wird nicht unterstützt</string>
+    <string name="exam_cmd">wstunnel client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
+    <string name="errormessage">Dienst nicht aktiv</string>
+    <string name="Notificationtitle">wstunnela</string>
+    <string name="Notificationcontent">wstunnel läuft im Hintergrund</string>
+    <string name="illlegalwstunnelcmd">Startbefehl enthält Fehler</string>
+
+    <string name="servicename">com.feng.wstunnela.MyService</string>
+    <string name="wsarm64">wstunnel_arm64</string>
+    <string name="wsamd64">wstunnel_amd64</string>
+    <string name="binfilepath">/data/data/com.feng.wstunnela/wstunnel</string>
+
+    <string name="arch_text">arm64/amd64</string>
+    <string name="version_text">x.x.x</string>
+    <string name="download_remind">Neueste wstunnel-Version wird von GitHub geladen…</string>
+
+    <string name="edit_hint_text">Regelname</string>
+    <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>
+    <string name="wstunnel_client_temp_s">Client-Vorlage</string>
+    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>
+    <string name="wstunnel_server_temp_s">Server-Vorlage</string>
+
+    <string name="tab_main">Hauptseite</string>
+    <string name="tab_config">Einstellungen</string>
+    <string name="tab_log">Protokoll</string>
+
+    <string name="fab_play">Starten</string>
+    <string name="fab_stop">Stoppen</string>
+
+    <string name="exit_remind">Wstunnel-Dienst läuft weiter im Hintergrund</string>
+    <string name="cancel_button">Abbrechen</string>
+
+    <string name="battery_permission_title">Hintergrundberechtigung</string>
+    <string name="battery_permission_content">Für den ordnungsgemäßen Betrieb deaktivieren Sie bitte die Batterieoptimierung und erlauben Sie den Hintergrundbetrieb</string>
+    <string name="background_running_set">Zu Einstellungen</string>
+
+    <string name="ignore_battery_optimization">Batterieoptimierung ignorieren</string>
+    <string name="not_save_power_mode">Energiesparmodus deaktivieren</string>
+    <string name="android_backgroundRestricted">Android 8+ Hintergroupeinschränkung deaktivieren</string>
+    <string name="setting_is_ok">Einstellungen abgeschlossen</string>
+
+    <string name="button_backgroundrunning">Wie der Dienst im Hintergrund gehalten wird</string>
+</resources>

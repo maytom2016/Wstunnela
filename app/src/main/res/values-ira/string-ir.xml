@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">wstunnela</string>
+    <string name="wstunnel_vesion">نسخه WS:</string>
+    <string name="system_architecture">معماری سیستم:</string>
+    <string name="loaded">وضعیت:</string>
+    <string name="buttonstart">فعال کردن</string>
+    <string name="buttonstop">غیرفعال کردن</string>
+    <string name="nosupportremind">دستگاه شما پشتیبانی نمی شود</string>
+    <string name="exam_cmd">wstunnel client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
+    <string name="errormessage">سرویس در حال اجرا نیست</string>
+    <string name="Notificationtitle">wstunnela</string>
+    <string name="Notificationcontent">wstunnel در پس زمینه در حال اجراست</string>
+    <string name="illlegalwstunnelcmd">خطا در دستور راه اندازی تشخیص داده شد</string>
+
+    <string name="servicename">com.feng.wstunnela.MyService</string>
+    <string name="wsarm64">wstunnel_arm64</string>
+    <string name="wsamd64">wstunnel_amd64</string>
+    <string name="binfilepath">/data/data/com.feng.wstunnela/wstunnel</string>
+
+    <string name="arch_text">arm64/amd64</string>
+    <string name="version_text">x.x.x</string>
+    <string name="download_remind">دریافت آخرین نسخه wstunnel از GitHub...</string>
+
+    <string name="edit_hint_text">نام قانون</string>
+    <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>
+    <string name="wstunnel_client_temp_s">قالب کلاینت</string>
+    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>
+    <string name="wstunnel_server_temp_s">قالب سرور</string>
+
+    <string name="tab_main">اصلی</string>
+    <string name="tab_config">تنظیمات</string>
+    <string name="tab_log">لاگ</string>
+
+    <string name="fab_play">راه اندازی</string>
+    <string name="fab_stop">توقف</string>
+
+    <string name="exit_remind">سرویس Wstunnel در پس زمینه به اجرا ادامه می دهد</string>
+    <string name="cancel_button">لغو</string>
+
+    <string name="battery_permission_title">هشدار مجوز اجرای پس زمینه</string>
+    <string name="battery_permission_content">برای اطمینان از عملکرد صحیح سرویس، بهینه سازی باتری را غیرفعال کرده و اجرای پس زمینه را مجاز کنید</string>
+    <string name="background_running_set">رفتن به تنظیمات</string>
+
+    <string name="ignore_battery_optimization">نادیده گرفتن بهینه سازی باتری</string>
+    <string name="not_save_power_mode">غیرفعال کردن حالت صرفه جویی در انرژی</string>
+    <string name="android_backgroundRestricted">غیرفعال کردن محدودیت پس زمینه اندروید 8+</string>
+    <string name="setting_is_ok">تنظیمات تکمیل شد</string>
+
+    <string name="button_backgroundrunning">نحوه حفظ سرویس در اجرای پیوسته پس زمینه</string>
+</resources>

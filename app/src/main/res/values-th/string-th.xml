@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">wstunnela</string>
+    <string name="wstunnel_vesion">เวอร์ชัน WS:</string>
+    <string name="system_architecture">สถาปัตยกรรมระบบ:</string>
+    <string name="loaded">สถานะ:</string>
+    <string name="buttonstart">เปิดใช้งาน</string>
+    <string name="buttonstop">ปิดใช้งาน</string>
+    <string name="nosupportremind">อุปกรณ์ของคุณไม่ได้รับการสนับสนุน</string>
+    <string name="exam_cmd">wstunnel client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
+    <string name="errormessage">บริการไม่ได้กำลังทำงาน</string>
+    <string name="Notificationtitle">wstunnela</string>
+    <string name="Notificationcontent">wstunnel กำลังทำงานในพื้นหลัง</string>
+    <string name="illlegalwstunnelcmd">ตรวจพบข้อผิดพลาดในคำสั่งเริ่มต้น</string>
+
+    <string name="servicename">com.feng.wstunnela.MyService</string>
+    <string name="wsarm64">wstunnel_arm64</string>
+    <string name="wsamd64">wstunnel_amd64</string>
+    <string name="binfilepath">/data/data/com.feng.wstunnela/wstunnel</string>
+
+    <string name="arch_text">arm64/amd64</string>
+    <string name="version_text">x.x.x</string>
+    <string name="download_remind">กำลังดาวน์โหลด wstunnel เวอร์ชันล่าสุดจาก GitHub...</string>
+
+    <string name="edit_hint_text">ชื่อกฎ</string>
+    <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>
+    <string name="wstunnel_client_temp_s">เทมเพลตไคลเอ็นต์</string>
+    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>
+    <string name="wstunnel_server_temp_s">เทมเพลตเซิร์ฟเวอร์</string>
+
+    <string name="tab_main">หน้าหลัก</string>
+    <string name="tab_config">การตั้งค่า</string>
+    <string name="tab_log">บันทึก</string>
+
+    <string name="fab_play">เริ่ม</string>
+    <string name="fab_stop">หยุด</string>
+
+    <string name="exit_remind">บริการ Wstunnel จะยังคงทำงานในพื้นหลัง</string>
+    <string name="cancel_button">ยกเลิก</string>
+
+    <string name="battery_permission_title">การแจ้งเตือนสิทธิ์การทำงานในพื้นหลัง</string>
+    <string name="battery_permission_content">เพื่อให้บริการทำงานได้ปกติ กรุณาปิดการปรับแต่งแบตเตอรี่และอนุญาตการทำงานในพื้นหลัง</string>
+    <string name="background_running_set">ไปที่การตั้งค่า</string>
+
+    <string name="ignore_battery_optimization">ละเว้นการปรับแต่งแบตเตอรี่</string>
+    <string name="not_save_power_mode">ปิดโหมดประหยัดพลังงาน</string>
+    <string name="android_backgroundRestricted">ปิดข้อจำกัดพื้นหลัง Android 8+</string>
+    <string name="setting_is_ok">ตั้งค่าเสร็จสิ้น</string>
+
+    <string name="button_backgroundrunning">วิธีการรักษาการทำงานของบริการในพื้นหลังอย่างต่อเนื่อง</string>
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">wstunnela</string>
+    <string name="wstunnel_vesion">WSバージョン:</string>
+    <string name="system_architecture">システムアーキテクチャ:</string>
+    <string name="loaded">ステータス:</string>
+    <string name="buttonstart">有効</string>
+    <string name="buttonstop">無効</string>
+    <string name="nosupportremind">お使いのデバイスはサポートされていません</string>
+    <string name="exam_cmd">wstunnel client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
+    <string name="errormessage">サービスが実行されていません</string>
+    <string name="Notificationtitle">wstunnela</string>
+    <string name="Notificationcontent">wstunnelがバックグラウンドで実行中です</string>
+    <string name="illlegalwstunnelcmd">起動コマンドにエラーが検出されました</string>
+
+    <string name="servicename">com.feng.wstunnela.MyService</string>
+    <string name="wsarm64">wstunnel_arm64</string>
+    <string name="wsamd64">wstunnel_amd64</string>
+    <string name="binfilepath">/data/data/com.feng.wstunnela/wstunnel</string>
+
+    <string name="arch_text">arm64/amd64</string>
+    <string name="version_text">x.x.x</string>
+    <string name="download_remind">GitHubから最新のwstunnelを取得中...</string>
+
+    <string name="edit_hint_text">ルール名</string>
+    <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>
+    <string name="wstunnel_client_temp_s">クライアントテンプレート</string>
+    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>
+    <string name="wstunnel_server_temp_s">サーバーテンプレート</string>
+
+    <string name="tab_main">ホーム</string>
+    <string name="tab_config">設定</string>
+    <string name="tab_log">ログ</string>
+
+    <string name="fab_play">開始</string>
+    <string name="fab_stop">停止</string>
+
+    <string name="exit_remind">Wstunnelサービスはバックグラウンドで実行を継続します</string>
+    <string name="cancel_button">キャンセル</string>
+
+    <string name="battery_permission_title">バックグラウンド実行権限の通知</string>
+    <string name="battery_permission_content">サービスの正常な動作を確保するため、バッテリー最適化を無効にし、バックグラウンド実行を許可してください</string>
+    <string name="background_running_set">設定へ</string>
+
+    <string name="ignore_battery_optimization">バッテリー最適化を無視</string>
+    <string name="not_save_power_mode">省電力モードをオフ</string>
+    <string name="android_backgroundRestricted">Android 8+ のバックグラウンド制限を無効</string>
+    <string name="setting_is_ok">設定完了</string>
+
+    <string name="button_backgroundrunning">サービスをバックグラウンドで継続的に実行する方法</string>
+</resources>

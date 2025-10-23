@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">wstunnela</string>
+    <string name="wstunnel_vesion">WS 버전:</string>
+    <string name="system_architecture">시스템 아키텍처:</string>
+    <string name="loaded">상태:</string>
+    <string name="buttonstart">활성화</string>
+    <string name="buttonstop">비활성화</string>
+    <string name="nosupportremind">사용 중인 기기를 지원하지 않습니다</string>
+    <string name="exam_cmd">wstunnel client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
+    <string name="errormessage">서비스가 실행 중이 아닙니다</string>
+    <string name="Notificationtitle">wstunnela</string>
+    <string name="Notificationcontent">wstunnel이 백그라운드에서 실행 중입니다</string>
+    <string name="illlegalwstunnelcmd">시작 명령어에 오류가 detected되었습니다</string>
+
+    <string name="servicename">com.feng.wstunnela.MyService</string>
+    <string name="wsarm64">wstunnel_arm64</string>
+    <string name="wsamd64">wstunnel_amd64</string>
+    <string name="binfilepath">/data/data/com.feng.wstunnela/wstunnel</string>
+
+    <string name="arch_text">arm64/amd64</string>
+    <string name="version_text">x.x.x</string>
+    <string name="download_remind">GitHub에서 최신 wstunnel을 가져오는 중...</string>
+
+    <string name="edit_hint_text">규칙 이름</string>
+    <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>
+    <string name="wstunnel_client_temp_s">클라이언트 템플릿</string>
+    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>
+    <string name="wstunnel_server_temp_s">서버 템플릿</string>
+
+    <string name="tab_main">홈</string>
+    <string name="tab_config">설정</string>
+    <string name="tab_log">로그</string>
+
+    <string name="fab_play">시작</string>
+    <string name="fab_stop">중지</string>
+
+    <string name="exit_remind">Wstunnel 서비스가 백그라운드에서 계속 실행됩니다</string>
+    <string name="cancel_button">취소</string>
+
+    <string name="battery_permission_title">백그라운드 실행 권한 알림</string>
+    <string name="battery_permission_content">서비스 정상 작동을 위해 배터리 최적화를 끄고 백그라운드 실행을 허용해 주세요</string>
+    <string name="background_running_set">설정으로 이동</string>
+
+    <string name="ignore_battery_optimization">배터리 최적화 무시</string>
+    <string name="not_save_power_mode">절전 모드 끄기</string>
+    <string name="android_backgroundRestricted">Android 8+ 백그라운드 제한 해제</string>
+    <string name="setting_is_ok">설정 완료</string>
+
+    <string name="button_backgroundrunning">서비스 백그라운드 지속 실행 방법</string>
+</resources>

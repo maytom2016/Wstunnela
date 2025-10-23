@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">wstunnela</string>
+    <string name="wstunnel_vesion">Versi WS:</string>
+    <string name="system_architecture">Arsitektur Sistem:</string>
+    <string name="loaded">Status:</string>
+    <string name="buttonstart">Aktifkan</string>
+    <string name="buttonstop">Nonaktifkan</string>
+    <string name="nosupportremind">Perangkat Anda tidak didukung</string>
+    <string name="exam_cmd">wstunnel client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
+    <string name="errormessage">Layanan tidak berjalan</string>
+    <string name="Notificationtitle">wstunnela</string>
+    <string name="Notificationcontent">wstunnel berjalan di latar belakang</string>
+    <string name="illlegalwstunnelcmd">Terdeteksi kesalahan dalam perintah mulai</string>
+
+    <string name="servicename">com.feng.wstunnela.MyService</string>
+    <string name="wsarm64">wstunnel_arm64</string>
+    <string name="wsamd64">wstunnel_amd64</string>
+    <string name="binfilepath">/data/data/com.feng.wstunnela/wstunnel</string>
+
+    <string name="arch_text">arm64/amd64</string>
+    <string name="version_text">x.x.x</string>
+    <string name="download_remind">Mengambil wstunnel terbaru dari GitHub...</string>
+
+    <string name="edit_hint_text">Nama Aturan</string>
+    <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>
+    <string name="wstunnel_client_temp_s">Template Klien</string>
+    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>
+    <string name="wstunnel_server_temp_s">Template Server</string>
+
+    <string name="tab_main">Beranda</string>
+    <string name="tab_config">Pengaturan</string>
+    <string name="tab_log">Log</string>
+
+    <string name="fab_play">Mulai</string>
+    <string name="fab_stop">Hentikan</string>
+
+    <string name="exit_remind">Layanan Wstunnel akan terus berjalan di latar belakang</string>
+    <string name="cancel_button">Batal</string>
+
+    <string name="battery_permission_title">Peringatan Izin Berjalan di Latar Belakang</string>
+    <string name="battery_permission_content">Untuk memastikan layanan berjalan normal, nonaktifkan optimasi baterai dan izinkan berjalan di latar belakang</string>
+    <string name="background_running_set">Buka Pengaturan</string>
+
+    <string name="ignore_battery_optimization">Abaikan optimasi baterai</string>
+    <string name="not_save_power_mode">Matikan mode hemat daya</string>
+    <string name="android_backgroundRestricted">Matikan pembatasan latar belakang Android 8+</string>
+    <string name="setting_is_ok">Pengaturan Selesai</string>
+
+    <string name="button_backgroundrunning">Cara mempertahankan layanan berjalan terus di latar belakang</string>
+</resources>

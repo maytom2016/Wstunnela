@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">wstunnela</string>
+    <string name="wstunnel_vesion">WS版本:</string>
+    <string name="system_architecture">系統架構:</string>
+    <string name="loaded">啟用狀態:</string>
+    <string name="buttonstart">啟用</string>
+    <string name="buttonstop">停用</string>
+    <string name="nosupportremind">您的裝置不受支援</string>
+    <string name="exam_cmd">wstunnel client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
+    <string name="errormessage">服務未運行</string>
+    <string name="Notificationtitle">wstunnela</string>
+    <string name="Notificationcontent">wstunnel正在後台運行</string>
+    <string name="illlegalwstunnelcmd">檢測到啟動命令有錯誤</string>
+
+    <string name="servicename">com.feng.wstunnela.MyService</string>
+    <string name="wsarm64">wstunnel_arm64</string>
+    <string name="wsamd64">wstunnel_amd64</string>
+    <string name="binfilepath">/data/data/com.feng.wstunnela/wstunnel</string>
+
+    <string name="arch_text">arm64/amd64</string>
+    <string name="version_text">x.x.x</string>
+    <string name="download_remind">正在從github獲取最新的wstunnel…</string>
+
+    <string name="edit_hint_text">規則名稱</string>
+    <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>
+    <string name="wstunnel_client_temp_s">客戶端模板</string>
+    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>
+    <string name="wstunnel_server_temp_s">服務端模板</string>
+
+    <string name="tab_main">主頁</string>
+    <string name="tab_config">設定</string>
+    <string name="tab_log">日誌</string>
+
+    <string name="fab_play">啟動</string>
+    <string name="fab_stop">禁用</string>
+
+    <string name="exit_remind">Wstunnel服務將繼續在後台運行</string>
+    <string name="cancel_button">取消</string>
+
+    <string name="battery_permission_title">後台運行權限提醒</string>
+    <string name="battery_permission_content">為保證服務正常運行，請關閉電池優化並允許後台運行</string>
+    <string name="background_running_set">前往設定</string>
+
+    <string name="ignore_battery_optimization">忽略電池優化</string>
+    <string name="not_save_power_mode">關閉省電模式</string>
+    <string name="android_backgroundRestricted">關閉安卓8+後台運行限制</string>
+    <string name="setting_is_ok">設定完成</string>
+
+    <string name="button_backgroundrunning">如何保持服務在後台持續運行</string>
+</resources>

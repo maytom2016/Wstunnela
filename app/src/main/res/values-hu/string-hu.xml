@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">wstunnela</string>
+    <string name="wstunnel_vesion">WS verzió:</string>
+    <string name="system_architecture">Rendszerarchitektúra:</string>
+    <string name="loaded">Állapot:</string>
+    <string name="buttonstart">Bekapcsol</string>
+    <string name="buttonstop">Kikapcsol</string>
+    <string name="nosupportremind">Az eszköze nem támogatott</string>
+    <string name="exam_cmd">wstunnel client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
+    <string name="errormessage">Szolgáltatás nem fut</string>
+    <string name="Notificationtitle">wstunnela</string>
+    <string name="Notificationcontent">wstunnel háttérben fut</string>
+    <string name="illlegalwstunnelcmd">Hiba az indítási parancsban</string>
+
+    <string name="servicename">com.feng.wstunnela.MyService</string>
+    <string name="wsarm64">wstunnel_arm64</string>
+    <string name="wsamd64">wstunnel_amd64</string>
+    <string name="binfilepath">/data/data/com.feng.wstunnela/wstunnel</string>
+
+    <string name="arch_text">arm64/amd64</string>
+    <string name="version_text">x.x.x</string>
+    <string name="download_remind">Legújabb wstunnel letöltése GitHub-ról...</string>
+
+    <string name="edit_hint_text">Szabály neve</string>
+    <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>
+    <string name="wstunnel_client_temp_s">Kliens sablon</string>
+    <string name="wstunnel_server_temp">wstunnel server --restrict-to localhost:51820 wss://0.0.0.0:18080</string>
+    <string name="wstunnel_server_temp_s">Szerver sablon</string>
+
+    <string name="tab_main">Főoldal</string>
+    <string name="tab_config">Beállítások</string>
+    <string name="tab_log">Napló</string>
+
+    <string name="fab_play">Indít</string>
+    <string name="fab_stop">Leállít</string>
+
+    <string name="exit_remind">A Wstunnel szolgáltatás továbbra is fut a háttérben</string>
+    <string name="cancel_button">Mégse</string>
+
+    <string name="battery_permission_title">Háttérfuttatási engedély figyelmeztetés</string>
+    <string name="battery_permission_content">A szolgáltatás megfelelő működéséhez kapcsolja ki az akkumulátor-optimalizálást és engedélyezze a háttérfuttatást</string>
+    <string name="background_running_set">Beállítások megnyitása</string>
+
+    <string name="ignore_battery_optimization">Akkumulátor-optimalizálás figyelmen kívül hagyása</string>
+    <string name="not_save_power_mode">Energiatakarékos mód kikapcsolása</string>
+    <string name="android_backgroundRestricted">Android 8+ háttérkorlátozás kikapcsolása</string>
+    <string name="setting_is_ok">Beállítások kész</string>
+
+    <string name="button_backgroundrunning">Hogyan tartsuk fenn a szolgáltatást a háttérben</string>
+</resources>
