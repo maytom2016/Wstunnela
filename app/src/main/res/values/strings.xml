@@ -7,7 +7,7 @@
     <string name="buttonstop">stop</string>
     <string name="nosupportremind">Your device isn\'t supported</string>
     <string name="exam_cmd">wstunnel  client -L "udp://23456:localhost:23456?timeout_sec=0" wss://exam.com:443</string>
-    <string name="errormessage">Nothing happend</string>
+    <string name="errormessage">Nothing happended</string>
     <string name="Notificationtitle">Wstunnela</string>
     <string name="Notificationcontent">Wstunnel is Running</string>
     <string name="illlegalwstunnelcmd">An error was detected in the startup command</string>

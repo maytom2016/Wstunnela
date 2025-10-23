@@ -20,7 +20,7 @@
 
     <string name="arch_text">arm64/amd64</string>
     <string name="version_text">x.x.x</string>
-    <string name="download_remind">Преузимање најновије верзије wstunnel са GitHub-а...</string>
+    <string name="download_remind">Преузимање најновије верзије wstunnel са GitHub-а…</string>
 
     <string name="edit_hint_text">Назив правила</string>
     <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>

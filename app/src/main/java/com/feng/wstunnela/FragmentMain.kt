@@ -273,7 +273,7 @@ fun ListItemText(rule: Rule) {
             fontWeight = FontWeight.Medium, // 中粗体
             color = MaterialTheme.colors.primary, // 主题主色
             maxLines = 1, // 限制为单行
-            overflow = TextOverflow.Ellipsis, // 超出部分显示为...
+            overflow = TextOverflow.Ellipsis, // 超出部分显示为…
             modifier = Modifier.padding(bottom = 4.dp)
                 .width(itemWidth), // 需要指定宽度约束// 下间距
         )

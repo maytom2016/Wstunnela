@@ -20,7 +20,7 @@
 
     <string name="arch_text">arm64/amd64</string>
     <string name="version_text">x.x.x</string>
-    <string name="download_remind">GitHubから最新のwstunnelを取得中...</string>
+    <string name="download_remind">GitHubから最新のwstunnelを取得中…</string>
 
     <string name="edit_hint_text">ルール名</string>
     <string name="wstunnel_client_temp">wstunnel client -L udp://23456:localhost:23456?timeout_sec=0 wss://exam.com:1709</string>
